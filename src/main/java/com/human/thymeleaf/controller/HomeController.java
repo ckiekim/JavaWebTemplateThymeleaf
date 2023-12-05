@@ -20,7 +20,7 @@ public class HomeController {
 	@Autowired MessageService msgService;
 	
 	@GetMapping(value= {"/", "/index"})
-	public String index(HttpSession session) {
+	public String index(HttpSession session, Model model) {
 		String sessMid, sessMname, sessProfile;
 		if (session.getAttribute("sessMid") == null) {
 			sessMid = "james";
@@ -39,6 +39,8 @@ public class HomeController {
 		session.setAttribute("notiList", notiList);
 		session.setAttribute("msgNum", msgNum);
 		session.setAttribute("msgList", msgList);
+		model.addAttribute("menu", "faq");
+		model.addAttribute("category", "pages");
 		return "base";
 	}
 	

@@ -190,74 +190,74 @@
           <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content collapse ${category == 'components' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content collapse" th:classappend="${category == 'components' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/components/alerts" class="${menu == 'alerts' ? 'active' : ''}">
+              <a href="/components/alerts" th:class="${menu == 'alerts' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Alerts</span>
               </a>
             </li>
             <li>
-              <a href="/components/accordion" class="${menu == 'accordion' ? 'active' : ''}">
+              <a href="/components/accordion" th:class="${menu == 'accordion' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Accordion</span>
               </a>
             </li>
             <li>
-              <a href="/components/badges" class="${menu == 'badges' ? 'active' : ''}">
+              <a href="/components/badges" th:class="${menu == 'badges' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Badges</span>
               </a>
             </li>
             <li>
-              <a href="/components/breadcrumbs" class="${menu == 'breadcrumbs' ? 'active' : ''}">
+              <a href="/components/breadcrumbs" th:class="${menu == 'breadcrumbs' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Breadcrumbs</span>
               </a>
             </li>
             <li>
-              <a href="/components/buttons" class="${menu == 'buttons' ? 'active' : ''}">
+              <a href="/components/buttons" th:class="${menu == 'buttons' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Buttons</span>
               </a>
             </li>
             <li>
-              <a href="/components/cards" class="${menu == 'cards' ? 'active' : ''}">
+              <a href="/components/cards" th:class="${menu == 'cards' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Cards</span>
               </a>
             </li>
             <li>
-              <a href="/components/carousel" class="${menu == 'carousel' ? 'active' : ''}">
+              <a href="/components/carousel" th:class="${menu == 'carousel' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Carousel</span>
               </a>
             </li>
             <li>
-              <a href="/components/list-group" class="${menu == 'list-group' ? 'active' : ''}">
+              <a href="/components/list-group" th:class="${menu == 'list-group' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>List group</span>
               </a>
             </li>
             <li>
-              <a href="/components/modal" class="${menu == 'modal' ? 'active' : ''}">
+              <a href="/components/modal" th:class="${menu == 'modal' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Modal</span>
               </a>
             </li>
             <li>
-              <a href="/components/tabs" class="${menu == 'tabs' ? 'active' : ''}">
+              <a href="/components/tabs" th:class="${menu == 'tabs' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Tabs</span>
               </a>
             </li>
             <li>
-              <a href="/components/pagination" class="${menu == 'pagination' ? 'active' : ''}">
+              <a href="/components/pagination" th:class="${menu == 'pagination' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Pagination</span>
               </a>
             </li>
             <li>
-              <a href="/components/progress" class="${menu == 'progress' ? 'active' : ''}">
+              <a href="/components/progress" th:class="${menu == 'progress' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Progress</span>
               </a>
             </li>
             <li>
-              <a href="/components/spinners" class="${menu == 'spinners' ? 'active' : ''}">
+              <a href="/components/spinners" th:class="${menu == 'spinners' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Spinners</span>
               </a>
             </li>
             <li>
-              <a href="/components/tooltips" class="${menu == 'tooltips' ? 'active' : ''}">
+              <a href="/components/tooltips" th:class="${menu == 'tooltips' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Tooltips</span>
               </a>
             </li>
@@ -268,24 +268,24 @@
           <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="forms-nav" class="nav-content collapse ${category == 'forms' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="forms-nav" class="nav-content collapse" th:classappend="${category == 'forms' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/forms/elements" class="${menu == 'elements' ? 'active' : ''}">
+              <a href="/forms/elements" th:class="${menu == 'elements' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Form Elements</span>
               </a>
             </li>
             <li>
-              <a href="/forms/layouts" class="${menu == 'layouts' ? 'active' : ''}">
+              <a href="/forms/layouts" th:class="${menu == 'layouts' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Form Layouts</span>
               </a>
             </li>
             <li>
-              <a href="/forms/editors" class="${menu == 'editors' ? 'active' : ''}">
+              <a href="/forms/editors" th:class="${menu == 'editors' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Form Editors</span>
               </a>
             </li>
             <li>
-              <a href="/forms/validation" class="${menu == 'validation' ? 'active' : ''}">
+              <a href="/forms/validation" th:class="${menu == 'validation' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Form Validation</span>
               </a>
             </li>
@@ -296,14 +296,14 @@
           <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="tables-nav" class="nav-content collapse ${category == 'tables' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="tables-nav" class="nav-content collapse" th:classappend="${category == 'tables' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/tables/general" class="${menu == 'general' ? 'active' : ''}">
+              <a href="/tables/general" th:class="${menu == 'general' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>General Tables</span>
               </a>
             </li>
             <li>
-              <a href="/tables/data" class="${menu == 'data' ? 'active' : ''}">
+              <a href="/tables/data" th:class="${menu == 'data' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Data Tables</span>
               </a>
             </li>
@@ -315,19 +315,19 @@
           <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="charts-nav" class="nav-content collapse ${category == 'charts' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="charts-nav" class="nav-content collapse" th:classappend="${category == 'charts' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/charts/chartjs" class="${menu == 'chartjs' ? 'active' : ''}">
+              <a href="/charts/chartjs" th:class="${menu == 'chartjs' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Chart.js</span>
               </a>
             </li>
             <li>
-              <a href="/charts/apexcharts" class="${menu == 'apexcharts' ? 'active' : ''}">
+              <a href="/charts/apexcharts" th:class="${menu == 'apexcharts' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>ApexCharts</span>
               </a>
             </li>
             <li>
-              <a href="/charts/echarts" class="${menu == 'echarts' ? 'active' : ''}">
+              <a href="/charts/echarts" th:class="${menu == 'echarts' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>ECharts</span>
               </a>
             </li>
@@ -338,19 +338,19 @@
           <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="icons-nav" class="nav-content collapse ${category == 'icons' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="icons-nav" class="nav-content collapse" th:classappend="${category == 'icons' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/icons/bootstrap" class="${menu == 'bootstrap' ? 'active' : ''}">
+              <a href="/icons/bootstrap" th:class="${menu == 'bootstrap' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
               </a>
             </li>
             <li>
-              <a href="/icons/remix" class="${menu == 'remix' ? 'active' : ''}">
+              <a href="/icons/remix" th:class="${menu == 'remix' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Remix Icons</span>
               </a>
             </li>
             <li>
-              <a href="/icons/boxicons" class="${menu == 'boxicons' ? 'active' : ''}">
+              <a href="/icons/boxicons" th:class="${menu == 'boxicons' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Boxicons</span>
               </a>
             </li>
@@ -362,19 +362,19 @@
           <a class="nav-link collapsed" data-bs-target="#message-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-chat-left-text"></i><span>Message</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="message-nav" class="nav-content collapse ${category == 'message' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="message-nav" class="nav-content collapse" th:classappend="${category == 'message' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/message/list" class="${menu == 'list' ? 'active' : ''}">
+              <a href="/message/list" th:class="${menu == 'list' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>List</span>
               </a>
             </li>
             <li>
-              <a href="/message/write" class="${menu == 'write' ? 'active' : ''}">
+              <a href="/message/write" th:class="${menu == 'write' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Write</span>
               </a>
             </li>
             <li>
-              <a href="#" class="${menu == 'view' ? 'active' : ''}">
+              <a href="#" th:class="${menu == 'view' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>View</span>
               </a>
             </li>
@@ -385,24 +385,24 @@
           <a class="nav-link collapsed" data-bs-target="#members-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-person"></i><span>Members</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="members-nav" class="nav-content collapse ${category == 'members' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="members-nav" class="nav-content collapse" th:classappend="${category == 'members' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/members/list" class="${menu == 'list' ? 'active' : ''}">
+              <a href="/members/list" th:class="${menu == 'list' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>List</span>
               </a>
             </li>
             <li>
-              <a href="/members/profile" class="${menu == 'profile' ? 'active' : ''}">
+              <a href="/members/profile" th:class="${menu == 'profile' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Profile</span>
               </a>
             </li>
             <li>
-              <a href="/members/register" class="${menu == 'register' ? 'active' : ''}">
+              <a href="/members/register" th:class="${menu == 'register' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Register</span>
               </a>
             </li>
             <li>
-              <a href="/members/login" class="${menu == 'login' ? 'active' : ''}">
+              <a href="/members/login" th:class="${menu == 'login' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Login</span>
               </a>
             </li>
@@ -413,19 +413,19 @@
           <a class="nav-link collapsed" data-bs-target="#pages-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-file-earmark"></i><span>Pages</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="pages-nav" class="nav-content collapse ${category == 'pages' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="pages-nav" class="nav-content collapse" th:classappend="${category == 'pages' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/pages/faq" class="${menu == 'faq' ? 'active' : ''}">
+              <a href="/pages/faq" th:class="${menu == 'faq' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>F.A.Q</span>
               </a>
             </li>
             <li>
-              <a href="/pages/contact" class="${menu == 'contact' ? 'active' : ''}">
+              <a href="/pages/contact" th:class="${menu == 'contact' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Contact</span>
               </a>
             </li>
             <li>
-              <a href="/pages/blank" class="${menu == 'blank' ? 'active' : ''}">
+              <a href="/pages/blank" th:class="${menu == 'blank' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Blank</span>
               </a>
             </li>
