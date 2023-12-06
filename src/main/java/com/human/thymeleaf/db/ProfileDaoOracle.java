@@ -1,5 +1,6 @@
 package com.human.thymeleaf.db;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -18,5 +19,8 @@ public interface ProfileDaoOracle {
 			+ " country=#{country}, addr=#{addr}, phone=#{phone}, twitter=#{twitter},"
 			+ " facebook=#{facebook}, insta=#{insta}, linked=#{linked} where pid=#{pid}")
 	void updateProfile(Profile profile);
+	
+	@Insert("insert into memberProfile values(default, #{mid}, '','','','','','','','','','')")
+	void insertProfile(Profile profile);
 	
 }

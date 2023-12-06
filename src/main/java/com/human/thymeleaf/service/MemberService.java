@@ -21,4 +21,6 @@ public interface MemberService {
 	
 	void updateProfile(Profile profile);
 	
+	void insertProfile(Profile profile);
+	
 }

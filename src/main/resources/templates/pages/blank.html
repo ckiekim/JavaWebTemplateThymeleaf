@@ -3,21 +3,21 @@
 <head>
   <header th:replace="~{fragments/base :: head}"></header>
   <script>
-	function readJs() {
-		let val = $('#card-in-js').val();
-		$('#card-out-js').html(val);
-	}
-	function readAjax() {
-		let val = $('#card-in-ajax').val();
-		$.ajax({
-			type: 'GET',
-			url: '/pages/blank_in',
-			data: {cardIn: val},
-			success: function(result) {
-				$('#card-out-ajax').html(result);
-			} 
-		});
-	}
+    function readJs() {
+      let val = $('#card-in-js').val();
+      $('#card-out-js').html(val);
+    }
+    function readAjax() {
+      let val = $('#card-in-ajax').val();
+      $.ajax({
+        type: 'GET',
+        url: '/pages/blank_in',
+        data: {cardIn: val},
+        success: function(result) {
+          $('#card-out-ajax').html(result);
+        } 
+      });
+    }
   </script>
 </head>
 

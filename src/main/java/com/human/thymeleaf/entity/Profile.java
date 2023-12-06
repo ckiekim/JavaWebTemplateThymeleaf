@@ -18,6 +18,9 @@ public class Profile {
 	private String imgPath;
 	
 	public Profile() { }
+	public Profile(String mid) {
+		this.mid = mid;
+	}
 	public Profile(int pid, String mid, String about, String company, String job, String country, String addr,
 			String phone, String twitter, String facebook, String insta, String linked) {
 		this.pid = pid;

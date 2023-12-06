@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
+</head>
+<body>
+  <div th:insert="~{fragments/base :: top}"></div>
+  <div th:insert="~{fragments/base :: aside}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Message View</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Message</li>
+          <li class="breadcrumb-item active">View and Reply</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Message View and Reply</h5>
+              <table class="table">
+              	<tr>
+              	  <td style="width: 10%;">발신</td>
+              	  <td style="width: 90%;" th:text="|${message.fromName} (${message.mfrom})|"></td>
+              	</tr>
+              	<tr>
+              	  <td>내용</td>
+              	  <td th:text="${message.content}"></td>
+              	</tr>
+              	<tr>
+              	  <td>시간</td>
+                  <td th:text="${#strings.replace(#strings.substring(message.genTime,0,19),'T',' ')}"></td>
+              	</tr>
+              	<tr>
+              	  <td colspan="2" style="text-align: center;">
+              	    <button class="btn btn-primary" th:onclick="|location.href='@{${referer}}'|">확인</button>
+              	    <button class="btn btn-warning" th:onclick="|location.href='@{/message/delete/{id}(id=${message.mid},referer=${referer})}'|">삭제</button>
+              	  </td>
+              	</tr>
+              </table>
+              <h5 class="mt-5 mb-2">응답</h5>
+              <form action="/message/write" method="post">
+                <table class="table table-borderless">
+                  <tr>
+                    <td style="width: 10%;"><label class="col-form-label">수신</label></td>
+                    <td style="width: 90%;"><input class="form-control" type="text" name="mto" th:value=${message.mfrom}></td>
+                  </tr>
+                  <tr>
+                    <td><label class="col-form-label">내용</label></td>
+                    <td><textarea class="form-control" name="content" rows="5"></textarea></td>
+                  </tr>
+                  <tr><td colspan="2" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">제출</button>
+                    <button type="reset" class="btn btn-secondary">취소</button>
+                  </td></tr>
+                </table>
+              </form>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:insert="~{fragments/base :: bottom}"></div>
+</body>
+</html>

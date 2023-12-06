@@ -53,4 +53,9 @@ public class MemberServiceOracleImpl implements MemberService {
 		profileDao.updateProfile(profile);
 	}
 
+	@Override
+	public void insertProfile(Profile profile) {
+		profileDao.insertProfile(profile);
+	}
+
 }
