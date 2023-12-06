@@ -39,9 +39,7 @@ public class HomeController {
 		session.setAttribute("notiList", notiList);
 		session.setAttribute("msgNum", msgNum);
 		session.setAttribute("msgList", msgList);
-		model.addAttribute("menu", "faq");
-		model.addAttribute("category", "pages");
-		return "base";
+		return "index";
 	}
 	
 	@GetMapping("/hello")

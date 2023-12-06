@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/base :: head}">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
 </head>
 <body>
-  <div th:insert="~{fragments/base :: top(notiNum='2')}"></div>
+  <div th:insert="~{fragments/base :: top}"></div>
   <div th:insert="~{fragments/base :: aside}"></div>
 
   <main id="main" class="main">

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
+  <script>
+	function readJs() {
+		let val = $('#card-in-js').val();
+		$('#card-out-js').html(val);
+	}
+	function readAjax() {
+		let val = $('#card-in-ajax').val();
+		$.ajax({
+			type: 'GET',
+			url: '/pages/blank_in',
+			data: {cardIn: val},
+			success: function(result) {
+				$('#card-out-ajax').html(result);
+			} 
+		});
+	}
+  </script>
+</head>
+
+<body>
+  <div th:insert="~{fragments/base :: top}"></div>
+  <div th:insert="~{fragments/base :: aside}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Blank Page</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Pages</li>
+          <li class="breadcrumb-item active">Blank</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+		  <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">입력 창</h5>
+              <textarea class="form-control" rows="5" id="card-in-js" onkeyup="readJs()"></textarea>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">출력 창(자바스크립트로 받은 입력 글)</h5>
+              <div id="card-out-js"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">입력 창</h5>
+              <textarea class="form-control" rows="5" id="card-in-ajax" onkeyup="readAjax()"></textarea>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">출력 창(Ajax로 받은 입력 글)</h5>
+              <div id="card-out-ajax"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:insert="~{fragments/base :: bottom}"></div>
+</body>
+</html>
