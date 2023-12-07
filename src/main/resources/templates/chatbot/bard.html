@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
+  <script>
+    $(document).ready(function() {
+      $('#userInput').focus();
+    });
+    function send() {
+      let userInput = $('#userInput').val();
+      $('<img></img>')
+        .attr({src: "/img/please-wait.gif", id: 'waitImg'})
+        .prependTo('#container');
+      let mark = 'mark' + Date.now();
+      $.ajax({
+        type: 'POST',
+        url: '/chatbot/bard',
+        data: {userInput: userInput},
+        success: function(result) {
+          $('#waitImg').remove();
+          $('#userInput').val('');
+          let obj = JSON.parse(result);
+					$('<div></div>')
+            .attr({'class': 'd-flex flex-row mt-2', id: mark+'1'}).prependTo('#container');
+          $('<div></div>')
+            .attr({'class': 'card w-100', id: mark+'2'}).appendTo('#'+mark+'1');
+          $('<div></div>')
+            .attr({'class': 'card-body mt-3', id: mark+'3'}).appendTo('#'+mark+'2');
+          $('<img></img>')
+            .attr({src: "/img/person.png", height: '32'}).appendTo('#'+mark+'3');
+          $('<span></span>')
+            .html(' ' + obj.user + '<br><br>').appendTo('#'+mark+'3');
+          $('<img></img>')
+            .attr({src: "/img/bard-logo.png", height: '32'}).appendTo('#'+mark+'3');
+          $('<span></span>')
+            .html(' ' + obj.chatbot.replaceAll('\n','<br>')).appendTo('#'+mark+'3');
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div th:insert="~{fragments/base :: top}"></div>
+  <div th:insert="~{fragments/base :: aside}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>구글 바드 API</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Chatbot</li>
+          <li class="breadcrumb-item active">구글 바드 API</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+		      <div class="card">
+            <div class="card-body">
+              <div class="input-group mt-3">
+                <span class="input-group-text">당신:</span>
+                <input type="text" class="form-control" name="userInput" id="userInput"
+                    onkeyup="if(window.event.keyCode==13) {send()}">
+                <button class="btn btn-primary" type="submit" onclick="send()">전송</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="container" id="container">
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:insert="~{fragments/base :: bottom}"></div>
+</body>
+</html>

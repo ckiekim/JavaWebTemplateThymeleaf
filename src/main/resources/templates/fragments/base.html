@@ -186,8 +186,31 @@
             <i class="bi bi-grid"></i><span>Dashboard</span>
           </a>
         </li><!-- End Dashboard Nav -->
-        
-      <li class="nav-heading">Bootstrap</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#chatbot-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-chat-quote-fill"></i><span>Chatbot</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="chatbot-nav" class="nav-content collapse" th:classappend="${category == 'chatbot' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="/chatbot/counsel" th:class="${menu == 'counsel' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>심리 상담</span>
+              </a>
+            </li>
+            <li>
+              <a href="/chatbot/legal" th:class="${menu == 'legal' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>법률 상담</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" th:class="${menu == 'bard' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>구글 바드</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Chatbot Nav -->
+
+        <li class="nav-heading">Bootstrap</li>
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -312,7 +335,7 @@
           </ul>
         </li><!-- End Tables Nav -->
   
-      <li class="nav-heading">Useful tool</li>
+        <li class="nav-heading">Useful tool</li>
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -381,7 +404,7 @@
               </a>
             </li>
           </ul>
-        </li><!-- End Icons Nav -->      
+        </li><!-- End Message Nav -->      
         
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#members-nav" data-bs-toggle="collapse" href="#">
@@ -409,7 +432,7 @@
               </a>
             </li>
           </ul>
-        </li><!-- End Icons Nav -->
+        </li><!-- End Members Nav -->
   
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#pages-nav" data-bs-toggle="collapse" href="#">
@@ -432,7 +455,7 @@
               </a>
             </li>
           </ul>
-        </li><!-- End Icons Nav -->
+        </li><!-- End Pages Nav -->
   
       </ul>
   
