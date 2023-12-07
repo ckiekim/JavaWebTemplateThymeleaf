@@ -51,10 +51,26 @@
                     <!-- ${empty message.fromName ? message.mfrom : message.fromName} -->
                     <td th:text="${#strings.isEmpty(message.fromName) ? message.mfrom : message.fromName}"></td>
                     <td th:text="${message.mto}"></td>
-                    <td th:text="${message.status}"></td>
+                    <td>
+                      <th:block th:switch="${message.status}">
+                        <span th:case="0">신규</span>
+                        <span th:case="1">읽음</span>
+                        <span th:case="2">삭제됨</span>
+                      </th:block>
+                    </td>
                     <td th:text="${#strings.replace(#strings.substring(message.genTime,0,19),'T',' ')}"></td>
                     <td>
-                      <span th:if="${session.sessMid == message.mto}">
+                      <th:block th:if="${session.sessMid == message.mto}">
+                        <a href="@{/message/view/{id}(id=${message.mid})}"><i class="bi bi-eye-fill"></i></a>
+                        <a href="@{/message/write/{to}(to=${message.mfrom})}"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="@{/message/delete/{id}?referer=/message/list(id=${message.mid})}"><i class="bi bi-trash-fill"></i></a>
+                      </th:block>
+                      <th:block th:unless="${session.sessMid == message.mto}">
+                        <a href="#" class="disabled-link"><i class="bi bi-eye-fill"></i></a>
+                        <a href="#" class="disabled-link"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="#" class="disabled-link"><i class="bi bi-trash-fill"></i></a>
+                      </th:block>
+                      <!-- <span th:if="${session.sessMid == message.mto}">
                     	  <a href="@{/message/view/{id}(id=${message.mid})}"><i class="bi bi-eye-fill"></i></a>
                       </span>
                       <span th:if="${session.sessMid != message.mto}">
@@ -71,7 +87,7 @@
                       </span>
                       <span th:if="${session.sessMid != message.mto}">
                     	  <a href="#" class="disabled-link"><i class="bi bi-trash-fill"></i></a>
-                    </span>
+                      </span> -->
                     </td>
                   </tr>
                 </tbody>

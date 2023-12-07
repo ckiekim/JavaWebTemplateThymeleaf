@@ -76,7 +76,7 @@ public class MembersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Member member = new Member(mid, mname, email, filename);
+			Member member = new Member(mid, mname, email, mid + "_" + filename);
 			memberService.insertMember(member);
 			Profile profile = new Profile(mid);
 			memberService.insertProfile(profile);
