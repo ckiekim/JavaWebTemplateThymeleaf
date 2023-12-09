@@ -9,9 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.human</groupId>
-	<artifactId>thymeleat</artifactId>
+	<artifactId>thymeleaf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>thymeleat</name>
+	<packaging>jar</packaging>
+	<name>thymeleaf</name>
 	<description>Template project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -48,7 +49,6 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		    <version>3.2.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
 		<dependency>
@@ -63,6 +63,10 @@
 		    <version>1.1.1</version>
 		</dependency>
 
+		<!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency> -->
 		
 	</dependencies>
 

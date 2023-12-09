@@ -24,7 +24,6 @@ public class ChatbotController {
 	private String category = "chatbot";
 	@Value("${restApi.counselUrl}") private String counselUrl;
 	@Value("${restApi.legalUrl}") private String legalUrl;
-	@Value("${restApi.bardUrl}") private String bardUrl;
 
 	@GetMapping("/counsel")
 	public String counselForm(Model model) {
