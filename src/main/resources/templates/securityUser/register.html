@@ -8,7 +8,6 @@
 
   <main>
     <div class="container">
-
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
@@ -22,36 +21,32 @@
               </div><!-- End Logo -->
 
               <div class="card mb-3">
-
                 <div class="card-body">
-
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">CK-World 로그인</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                    <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" action="/security-user/login" method="post">
+                  <form class="row g-3 needs-validation" novalidate action="/security-user/register" method="post">
                     <div class="col-12">
-                      <label for="suname" class="form-label">사용자 ID</label>
-                      <div class="input-group has-validation">
-                        <input type="text" name="suname" class="form-control" id="suname" required>
-                      </div>
+                      <input type="text" name="suname" class="form-control mb-3" placeholder="사용자 아이디" required>
+                      <input type="password" name="pwd" class="form-control mb-3" placeholder="패스워드" required>
+                      <input type="password" name="pwd2" class="form-control mb-3" placeholder="패스워드 확인" required>
+                      <input type="text" name="nickname" class="form-control mb-3" placeholder="별칭">
+                      <input type="text" name="email" class="form-control mb-3" placeholder="이메일" required>
                     </div>
                     <div class="col-12">
-                      <label for="password" class="form-label">Password</label>
-                      <input type="password" name="pwd" class="form-control" id="password" required>
+                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100 mt-3" type="submit">로그인</button>
+                      <p class="small my-3">이미 사용자 계정이 있으신가요? <a href="/security-user/login">로그인</a></p>
                     </div>
                     <div class="col-12">
-                      <p class="small my-3">계정이 없으신가요? <a href="/security-user/register">사용자 계정 만들기</a></p>
-                    </div>
-                    <div class="col-12">
-                      <p>소셜 로그인
-                        <a class="ms-4" href="#"><img src="/img/google-logo.png" height="32"></a>
-                        <a class="ms-3" href="#"><img src="/img/github-logo.png" height="32"></a>
-                        <a class="ms-3" href="#"><img src="/img/naver-logo.jpg" height="32"></a>
-                        <a class="ms-3" href="#"><img src="/img/kakao-logo.png" height="32"></a>
+                      <p>소셜 계정으로 가입
+                        <a class="ms-3" href="#"><img src="/img/google-logo.png" height="32"></a>
+                        <a class="ms-2" href="#"><img src="/img/github-logo.png" height="32"></a>
+                        <a class="ms-2" href="#"><img src="/img/naver-logo.jpg" height="32"></a>
+                        <a class="ms-2" href="#"><img src="/img/kakao-logo.png" height="32"></a>
                       </p>
                     </div>
                   </form>

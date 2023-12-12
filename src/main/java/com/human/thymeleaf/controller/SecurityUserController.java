@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.human.thymeleaf.entity.SecurityUser;
 import com.human.thymeleaf.service.SecurityUserService;
 
 @Controller
@@ -20,15 +21,17 @@ public class SecurityUserController {
 		return "success";
 	}
 
-	@ResponseBody
 	@GetMapping("/register")
 	public String registerForm() {
-		return "register form";
+		return "securityUser/register";
 	}
 	
 	@ResponseBody
 	@PostMapping("/register")
-	public String registerProc() {
+	public String registerProc(String suname, String pwd, String pwd2, String nickname, String email) {
+		String hashedPwd = pwd;
+		SecurityUser securityUser = new SecurityUser(email, hashedPwd, suname, nickname, "", "", "ROLE_USER");
+		System.out.println(securityUser);
 		return "register proc";
 	}
 	
