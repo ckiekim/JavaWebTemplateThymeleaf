@@ -5,6 +5,7 @@ DROP TRIGGER TRI_memberProfile_pid;
 DROP TRIGGER TRI_message_mid;
 DROP TRIGGER TRI_notification_nid;
 DROP TRIGGER TRI_profile_pid;
+DROP TRIGGER TRI_securityUser_suid;
 
 
 
@@ -14,6 +15,7 @@ DROP TABLE memberProfile CASCADE CONSTRAINTS;
 DROP TABLE message CASCADE CONSTRAINTS;
 DROP TABLE notification CASCADE CONSTRAINTS;
 DROP TABLE members CASCADE CONSTRAINTS;
+DROP TABLE securityUser CASCADE CONSTRAINTS;
 
 
 
@@ -23,6 +25,7 @@ DROP SEQUENCE SEQ_memberProfile_pid;
 DROP SEQUENCE SEQ_message_mid;
 DROP SEQUENCE SEQ_notification_nid;
 DROP SEQUENCE SEQ_profile_pid;
+DROP SEQUENCE SEQ_securityUser_suid;
 
 
 
@@ -33,6 +36,7 @@ CREATE SEQUENCE SEQ_memberProfile_pid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_message_mid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_notification_nid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_profile_pid INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE SEQ_securityUser_suid INCREMENT BY 1 START WITH 1;
 
 
 
@@ -88,6 +92,21 @@ CREATE TABLE notification
 	status number DEFAULT 0 NOT NULL,
 	genTime timestamp DEFAULT SYSDATE,
 	PRIMARY KEY (nid)
+);
+
+
+CREATE TABLE securityUser
+(
+	suid number NOT NULL,
+	email nvarchar2(80) NOT NULL UNIQUE,
+	pwd char(60),
+	suname varchar2(80),
+	nickname varchar2(40),
+	provider nvarchar2(40),
+	providerId nvarchar2(40),
+	regDate date DEFAULT SYSDATE,
+	role varchar2(16),
+	PRIMARY KEY (suid)
 );
 
 
@@ -156,6 +175,16 @@ FOR EACH ROW
 BEGIN
 	SELECT SEQ_profile_pid.nextval
 	INTO :new.pid
+	FROM dual;
+END;
+
+/
+
+CREATE OR REPLACE TRIGGER TRI_securityUser_suid BEFORE INSERT ON securityUser
+FOR EACH ROW
+BEGIN
+	SELECT SEQ_securityUser_suid.nextval
+	INTO :new.suid
 	FROM dual;
 END;
 
