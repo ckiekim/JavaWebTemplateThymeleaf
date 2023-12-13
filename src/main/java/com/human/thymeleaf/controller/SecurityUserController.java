@@ -1,6 +1,7 @@
 package com.human.thymeleaf.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,13 @@ public class SecurityUserController {
 	@GetMapping("/admin")
 	public String admin() {
 		return "<h1>관리자 페이지</h1>";
+	}
+	
+	@Secured("ROLE_ADMIN")
+	@ResponseBody
+	@GetMapping("/info")
+	public String info() {
+		return "<h1>개인정보 페이지</h1>";
 	}
 
 	@GetMapping("/register")

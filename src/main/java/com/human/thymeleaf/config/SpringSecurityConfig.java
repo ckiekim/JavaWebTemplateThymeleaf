@@ -2,6 +2,7 @@ package com.human.thymeleaf.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -10,7 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import jakarta.servlet.DispatcherType;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity		// 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨
+@EnableMethodSecurity(securedEnabled=true)
 public class SpringSecurityConfig {
 
 	@Bean
@@ -28,7 +30,7 @@ public class SpringSecurityConfig {
 			)
 			.formLogin(login -> login
 				.loginPage("/security-user/login")		// 내가 만든 로그인 페이지
-				.loginProcessingUrl("/security-user/login")	// 로그인 처리(post) url
+				.loginProcessingUrl("/security-user/login")		// 로그인 처리(post) url, spring이 낚아챔
 				.usernameParameter("suname")
 				.passwordParameter("pwd")
 				.defaultSuccessUrl("/security-user/success", true) 	// 성공시 이동할 페이지
