@@ -2,9 +2,11 @@ package com.human.thymeleaf.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.human.thymeleaf.entity.SecurityUser;
 
@@ -16,12 +18,21 @@ import com.human.thymeleaf.entity.SecurityUser;
 
 // Security Session => Authentication => UserDetails
 
-public class PrincipalDetails implements UserDetails {
+// OAuth Login도 지원하려면 OAuth2Login도 implement 하게 만들어 줌
+
+public class PrincipalDetails implements UserDetails, OAuth2User {
 	private SecurityUser securityUser;
+	private Map<String, Object> attributes;
 	
 	public PrincipalDetails() { }
+	// 일반 로그인
 	public PrincipalDetails(SecurityUser securityUser) {
 		this.securityUser = securityUser;
+	}
+	// OAuth 로그인
+	public PrincipalDetails(SecurityUser securityUser, Map<String, Object> attributes) {
+		this.securityUser = securityUser;
+		this.attributes = attributes;
 	}
 
 	// 해당 사용자의 권한을 리턴
@@ -65,6 +76,20 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+	
+	@Override
+	public String getName() {
+		return null;
+	}
+	
+	public SecurityUser getSecurityUser() {
+		return securityUser;
 	}
 
 }
