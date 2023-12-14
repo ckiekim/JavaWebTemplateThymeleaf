@@ -38,7 +38,7 @@ public class SpringSecurityConfig {
 				.loginProcessingUrl("/security-user/login")		// 로그인 처리(post) url, spring이 낚아챔
 				.usernameParameter("suname")
 				.passwordParameter("pwd")
-				.defaultSuccessUrl("/security-user/success", true) 	// 성공시 이동할 페이지
+				.defaultSuccessUrl("/security-user/both", true) 	// 성공시 이동할 페이지
 				.permitAll() 			// 
 			)
 			.oauth2Login(oauth2 -> oauth2

@@ -103,7 +103,7 @@ CREATE TABLE securityUser
 	suname varchar2(80),
 	nickname varchar2(40),
 	provider nvarchar2(40),
-	providerId nvarchar2(40),
+	providerId nvarchar2(60),
 	regDate date DEFAULT SYSDATE,
 	role varchar2(16),
 	PRIMARY KEY (suid)
