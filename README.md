@@ -2,7 +2,7 @@
 
 ### 사용한 도구
 - Front-end: HTML, CSS, JS, Bootstrap5, Thymeleaf
-- Back-end: Java 17, Spring Boot 3.2.0, Oracle, MyBatis
+- Back-end: Java 17, Spring Boot 3.2.0, Oracle, MyBatis, Spring Security
 
 ### AI 데이터플랫폼(With Python, Java Spring) 활용한 빅데이터 분석 전문가 과정
 - 휴먼교육센터 영등포

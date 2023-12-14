@@ -18,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 	@Autowired private SecurityUserService securityUserService;
 	
 	// Security Session 내에 (Authentication 내에 UserDetails)이 들어감
+	// method 종료시 @AuthenticationPrincipal 이 만들어짐
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //		System.out.println("loadUserByUsername(), username: " + username);
