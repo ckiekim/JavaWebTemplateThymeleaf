@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.human.thymeleaf.auth.PrincipalDetails;
 import com.human.thymeleaf.entity.SecurityUser;
+import com.human.thymeleaf.entity.UserProfile;
 import com.human.thymeleaf.service.SecurityUserService;
 
 
@@ -115,6 +116,8 @@ public class SecurityUserController {
 		}
 		securityUser = new SecurityUser(suname, hashedPwd, email, nickname, "ck world", imgPath);
 		securityUserService.insertSecurityUser(securityUser);
+		securityUser = securityUserService.findByName(suname);
+		securityUserService.insertUserProfile(securityUser.getSuid());
 		return "redirect:/security-user/login";
 	}
 	

@@ -53,6 +53,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				picture = oAuth2User.getAttribute("picture");
 				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
+				securityUser = securityUserService.findByName(suname);
+				securityUserService.insertUserProfile(securityUser.getSuid());
 			}
 			break;
 
@@ -66,6 +68,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				picture = oAuth2User.getAttribute("avatar_url");
 				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
+				securityUser = securityUserService.findByName(suname);
+				securityUserService.insertUserProfile(securityUser.getSuid());
 			}
 			break;
 			
@@ -81,6 +85,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				picture = (picture == null) ? "" : picture;
 				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
+				securityUser = securityUserService.findByName(suname);
+				securityUserService.insertUserProfile(securityUser.getSuid());
 			}
 			break;
 			
@@ -96,6 +102,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				email = (String) account.get("email");
 				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
+				securityUser = securityUserService.findByName(suname);
+				securityUserService.insertUserProfile(securityUser.getSuid());
 			}
 			break;
 		}

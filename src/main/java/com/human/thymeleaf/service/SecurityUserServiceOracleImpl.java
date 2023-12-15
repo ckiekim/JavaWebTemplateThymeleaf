@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.human.thymeleaf.db.SecurityUserDaoOracle;
+import com.human.thymeleaf.db.UserProfileDaoOracle;
 import com.human.thymeleaf.entity.SecurityUser;
+import com.human.thymeleaf.entity.UserProfile;
 
 @Service
 public class SecurityUserServiceOracleImpl implements SecurityUserService {
 	@Autowired private SecurityUserDaoOracle securityUserDao;
+	@Autowired private UserProfileDaoOracle userProfileDao;
 
 	@Override
 	public SecurityUser findById(int suid) {
@@ -49,6 +52,22 @@ public class SecurityUserServiceOracleImpl implements SecurityUserService {
 	@Override
 	public void deleteSecurityUser(int suid) {
 		securityUserDao.deleteSecurityUser(suid);
+	}
+
+	@Override
+	public UserProfile getUserProfile(String suname) {
+		UserProfile userProfile = userProfileDao.getUserProfile(suname);
+		return userProfile;
+	}
+
+	@Override
+	public void insertUserProfile(int suid) {
+		userProfileDao.insertUserProfile(suid);
+	}
+
+	@Override
+	public void updateUserProfile(UserProfile userProfile) {
+		userProfileDao.updateUserProfile(userProfile);
 	}
 
 }

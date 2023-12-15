@@ -86,6 +86,7 @@ CREATE TABLE userProfile
 	company varchar2(40),
 	job varchar2(40),
 	country varchar2(32),
+	addr varchar2(40),
 	phone varchar2(20),
 	twitter varchar2(40),
 	facebook varchar2(40),
@@ -99,13 +100,13 @@ CREATE TABLE userProfile
 /* Create Foreign Keys */
 
 ALTER TABLE message
-	ADD FOREIGN KEY (dstSuid)
+	ADD FOREIGN KEY (srcSuid)
 	REFERENCES securityUser (suid)
 ;
 
 
 ALTER TABLE message
-	ADD FOREIGN KEY (srcSuid)
+	ADD FOREIGN KEY (dstSuid)
 	REFERENCES securityUser (suid)
 ;
 
