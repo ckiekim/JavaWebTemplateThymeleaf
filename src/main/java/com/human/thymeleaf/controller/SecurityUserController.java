@@ -1,10 +1,12 @@
 package com.human.thymeleaf.controller;
 
+import java.io.File;
 import java.util.Enumeration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.human.thymeleaf.auth.PrincipalDetails;
 import com.human.thymeleaf.entity.SecurityUser;
@@ -29,6 +32,7 @@ import jakarta.servlet.http.HttpSession;
 public class SecurityUserController {
 	@Autowired private SecurityUserService securityUserService;
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Value("${spring.servlet.multipart.location}") private String uploadDir;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	@ResponseBody
@@ -96,12 +100,20 @@ public class SecurityUserController {
 	}
 	
 	@PostMapping("/register")
-	public String registerProc(String suname, String pwd, String pwd2, String nickname, String email) {
+	public String registerProc(String suname, String pwd, String pwd2, String nickname, String email, MultipartFile picture) {
 		SecurityUser securityUser = securityUserService.findByName(suname);
 		if (securityUser != null || pwd == null || !pwd.equals(pwd2))
 			return "securityUser/register";
 		String hashedPwd = bCryptPasswordEncoder.encode(pwd);
-		securityUser = new SecurityUser(email, hashedPwd, suname, nickname, "", "", "ROLE_USER");
+		String filename = picture.getOriginalFilename();
+		String imgPath = "/file/profileDownload/" + suname + "_" + filename;
+		String profilePath = uploadDir + "profileUpload/" + suname + "_" + filename;
+		try {
+			picture.transferTo(new File(profilePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		securityUser = new SecurityUser(suname, hashedPwd, email, nickname, "ck world", imgPath);
 		securityUserService.insertSecurityUser(securityUser);
 		return "redirect:/security-user/login";
 	}

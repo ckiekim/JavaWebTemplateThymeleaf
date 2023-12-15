@@ -25,12 +25,12 @@ public interface SecurityUserDaoOracle {
 	@Select("select * from securityUser")
 	List<SecurityUser> getSecurityUserList();
 	
-	@Insert("insert into securityUser values(default, #{email}, #{pwd}, #{suname}, "
-				+ " #{nickname}, #{provider}, #{providerId}, default, #{role})")
+	@Insert("insert into securityUser values(default, #{suname}, #{pwd}, #{email}, "
+				+ " #{nickname}, #{provider}, default, default, #{imgPath})")
 	void insertSecurityUser(SecurityUser su);
 	
-	@Update("update securityUser set email=#{email}, pwd=#{pwd}, suname=#{suname}, "
-				+ " nickname=#{nickname}, role=#{role} where suid=#{suid}")
+	@Update("update securityUser set pwd=#{pwd}, email=#{email}, nickname=#{nickname}, "
+				+ " role=#{role}, imgPath=#{imgPath} where suid=#{suid}")
 	void updateSecurityUser(SecurityUser su);
 	
 	@Delete("delete from securityUser where suid=#{suid}")

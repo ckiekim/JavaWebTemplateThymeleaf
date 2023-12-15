@@ -26,9 +26,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 	// method 종료시 @AuthenticationPrincipal 이 만들어짐
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		String suname, email, nickname;
+		String suname, email, nickname, picture;
 		String pwd = bCryptPasswordEncoder.encode("CK World");
-		String role = "ROLE_USER";
 		SecurityUser securityUser = null;
 		
 		log.debug("getClientRegistration(): " + userRequest.getClientRegistration());	// 어떤 OAuth로 로그인 했는지 (예, google)
@@ -39,7 +38,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 //		System.out.println("========================");
 		
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		log.debug("getAttributes(): " + oAuth2User.getAttributes());
+		System.out.println("getAttributes(): " + oAuth2User.getAttributes());
 		
 		// 회원가입
 		String provider = userRequest.getClientRegistration().getRegistrationId();	// google
@@ -51,7 +50,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 			if (securityUser == null) {		// 가입이 안되어있으면 가입 진행
 				email = oAuth2User.getAttribute("email");
 				nickname = oAuth2User.getAttribute("name");
-				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, providerId, role);
+				picture = oAuth2User.getAttribute("picture");
+				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
 			}
 			break;
@@ -63,7 +63,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 			if (securityUser == null) {		// 가입이 안되어있으면 가입 진행
 				email = oAuth2User.getAttribute("email");
 				nickname = oAuth2User.getAttribute("name");
-				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, String.valueOf(id), role);
+				picture = oAuth2User.getAttribute("avatar_url");
+				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
 			}
 			break;
@@ -76,7 +77,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 			if (securityUser == null) {		// 가입이 안되어있으면 가입 진행
 				email = (String) response.get("email");
 				nickname = (String) response.get("nickname");
-				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, nid, role);
+				picture = (String) response.get("profile_image");
+				picture = (picture == null) ? "" : picture;
+				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
 			}
 			break;
@@ -88,9 +91,10 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 			if (securityUser == null) {		// 가입이 안되어있으면 가입 진행
 				Map<String, String> properties = (Map) oAuth2User.getAttribute("properties");
 				nickname = properties.get("nickname");
+				picture = properties.get("profile_image");
 				Map<String, Object> account = (Map) oAuth2User.getAttribute("kakao_account");
 				email = (String) account.get("email");
-				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, String.valueOf(kid), role);
+				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
 			}
 			break;

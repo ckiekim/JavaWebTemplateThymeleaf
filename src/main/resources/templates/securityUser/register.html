@@ -27,13 +27,14 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action="/security-user/register" method="post">
+                  <form class="row g-3 needs-validation" novalidate action="/security-user/register" method="post" enctype="multipart/form-data">
                     <div class="col-12">
                       <input type="text" name="suname" class="form-control mb-3" placeholder="사용자 아이디" required>
                       <input type="password" name="pwd" class="form-control mb-3" placeholder="패스워드" required>
                       <input type="password" name="pwd2" class="form-control mb-3" placeholder="패스워드 확인" required>
                       <input type="text" name="nickname" class="form-control mb-3" placeholder="별칭">
                       <input type="text" name="email" class="form-control mb-3" placeholder="이메일" required>
+                      <input type="file" name="picture" class="form-control" placeholder="프로필 사진">
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>

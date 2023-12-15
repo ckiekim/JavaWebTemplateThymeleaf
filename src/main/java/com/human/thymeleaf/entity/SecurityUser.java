@@ -4,44 +4,42 @@ import java.time.LocalDate;
 
 public class SecurityUser {
 	private int suid;
-	private String email;
-	private String pwd;
 	private String suname;
+	private String pwd;
+	private String email;
 	private String nickname;
 	private String provider;
-	private String providerId;
 	private LocalDate regDate;
 	private String role;
+	private String imgPath;
 	
 	public SecurityUser() { }
-	public SecurityUser(String email, String pwd, String suname, String nickname, String provider, String providerId,
-			String role) {
-		this.email = email;
-		this.pwd = pwd;
+	public SecurityUser(String suname, String pwd, String email, String nickname, String provider, String imgPath) {
 		this.suname = suname;
+		this.pwd = pwd;
+		this.email = email;
 		this.nickname = nickname;
 		this.provider = provider;
-		this.providerId = providerId;
-		this.role = role;
+		this.imgPath = imgPath;
 	}
-	public SecurityUser(int suid, String email, String pwd, String suname, String nickname, String provider,
-			String providerId, LocalDate regDate, String role) {
+	public SecurityUser(int suid, String suname, String pwd, String email, String nickname, String provider,
+			LocalDate regDate, String role, String imgPath) {
 		this.suid = suid;
-		this.email = email;
-		this.pwd = pwd;
 		this.suname = suname;
+		this.pwd = pwd;
+		this.email = email;
 		this.nickname = nickname;
 		this.provider = provider;
-		this.providerId = providerId;
 		this.regDate = regDate;
 		this.role = role;
+		this.imgPath = imgPath;
 	}
 	
 	@Override
 	public String toString() {
-		return "SecurityUser [suid=" + suid + ", email=" + email + ", pwd=" + pwd + ", suname=" + suname + ", nickname="
-				+ nickname + ", provider=" + provider + ", providerId=" + providerId + ", regDate=" + regDate
-				+ ", role=" + role + "]";
+		return "SecurityUser [suid=" + suid + ", suname=" + suname + ", pwd=" + pwd + ", email=" + email + ", nickname="
+				+ nickname + ", provider=" + provider + ", regDate=" + regDate + ", role=" + role + ", imgPath="
+				+ imgPath + "]";
 	}
 	
 	public int getSuid() {
@@ -50,11 +48,11 @@ public class SecurityUser {
 	public void setSuid(int suid) {
 		this.suid = suid;
 	}
-	public String getEmail() {
-		return email;
+	public String getSuname() {
+		return suname;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSuname(String suname) {
+		this.suname = suname;
 	}
 	public String getPwd() {
 		return pwd;
@@ -62,11 +60,11 @@ public class SecurityUser {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	public String getSuname() {
-		return suname;
+	public String getEmail() {
+		return email;
 	}
-	public void setSuname(String suname) {
-		this.suname = suname;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getNickname() {
 		return nickname;
@@ -80,12 +78,6 @@ public class SecurityUser {
 	public void setProvider(String provider) {
 		this.provider = provider;
 	}
-	public String getProviderId() {
-		return providerId;
-	}
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
 	public LocalDate getRegDate() {
 		return regDate;
 	}
@@ -98,4 +90,11 @@ public class SecurityUser {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public String getImgPath() {
+		return imgPath;
+	}
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+	
 }
