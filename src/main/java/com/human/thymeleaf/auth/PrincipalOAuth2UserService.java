@@ -2,6 +2,8 @@ package com.human.thymeleaf.auth;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +20,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
 	@Autowired private SecurityUserService securityUserService;
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	// Provider(구글, github 등)로부터 받은 userRequest 데이터에 대해 후처리하는 메소드
 	// method 종료시 @AuthenticationPrincipal 이 만들어짐
@@ -28,7 +31,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 		String role = "ROLE_USER";
 		SecurityUser securityUser = null;
 		
-		System.out.println("getClientRegistration(): " + userRequest.getClientRegistration());	// 어떤 OAuth로 로그인 했는지 (예, google)
+		log.debug("getClientRegistration(): " + userRequest.getClientRegistration());	// 어떤 OAuth로 로그인 했는지 (예, google)
 //		System.out.println("getAccessToken().getTokenValue(): " + userRequest.getAccessToken().getTokenValue());
 //		System.out.println("getAttributes(): " + super.loadUser(userRequest).getAttributes());
 //		System.out.println("============ 구글로부터 받은 사용자 정보 ============");
@@ -36,7 +39,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 //		System.out.println("========================");
 		
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		System.out.println("getAttributes(): " + oAuth2User.getAttributes());
+		log.debug("getAttributes(): " + oAuth2User.getAttributes());
 		
 		// 회원가입
 		String provider = userRequest.getClientRegistration().getRegistrationId();	// google
@@ -74,6 +77,20 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				email = (String) response.get("email");
 				nickname = (String) response.get("nickname");
 				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, nid, role);
+				securityUserService.insertSecurityUser(securityUser);
+			}
+			break;
+			
+		case "kakao":
+			long kid = (Long) oAuth2User.getAttribute("id");
+			suname = provider + "_" + kid;
+			securityUser = securityUserService.findByName(suname);
+			if (securityUser == null) {		// 가입이 안되어있으면 가입 진행
+				Map<String, String> properties = (Map) oAuth2User.getAttribute("properties");
+				nickname = properties.get("nickname");
+				Map<String, Object> account = (Map) oAuth2User.getAttribute("kakao_account");
+				email = (String) account.get("email");
+				securityUser = new SecurityUser(email, pwd, suname, nickname, provider, String.valueOf(kid), role);
 				securityUserService.insertSecurityUser(securityUser);
 			}
 			break;

@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 			.cors(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-				.requestMatchers("/security-user/register", "/security-user/success", "/oauth2/**",
+				.requestMatchers("/security-user/register", "/oauth2/**",
 						"/img/**", "/css/**", "/js/**", "/vendor/**", "/file/**", "/charts/**",
 						"/chatbot/**", "/components/**", "/error/**", "/forms/**",
 						"/icons/**", "/tables/**").permitAll()	// login 예외
@@ -48,6 +48,7 @@ public class SpringSecurityConfig {
 				// 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도 함
 				// 4-2. 구글이 제공하는 정보 + 추가적인 정보를 수집해야 함(예, 주소, 등급 등)
 				.userInfoEndpoint(user -> user.userService(principalOAuth2UserService))
+				.defaultSuccessUrl("/security-user/both", true) 	// 성공시 이동할 페이지
 			)
 			.logout(logout -> logout
 				.logoutUrl("/security-user/logout").permitAll()
