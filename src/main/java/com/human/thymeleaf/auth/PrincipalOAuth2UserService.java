@@ -82,7 +82,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				email = (String) response.get("email");
 				nickname = (String) response.get("nickname");
 				picture = (String) response.get("profile_image");
-				picture = (picture == null) ? "" : picture;
+				picture = (picture == null) ? "/file/profileDownload/human.png" : picture;
 				securityUser = new SecurityUser(suname, pwd, email, nickname, provider, picture);
 				securityUserService.insertSecurityUser(securityUser);
 				securityUser = securityUserService.findByName(suname);

@@ -2,6 +2,7 @@ package com.human.thymeleaf.controller;
 
 import java.io.File;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +110,7 @@ public class SecurityUserController {
 
 	@GetMapping("/register")
 	public String registerForm() {
-		return "securityUser/register";
+		return "security-user/register";
 	}
 	
 	@PostMapping("/register")
@@ -136,7 +137,7 @@ public class SecurityUserController {
 	@GetMapping("/login")
 	public String loginForm() {
 		log.trace("========================== loginForm()");
-		return "securityUser/login";
+		return "security-user/login";
 	}
 	
 	@GetMapping("/profile")
@@ -148,7 +149,7 @@ public class SecurityUserController {
 		String suname = principalDetails.getSecurityUser().getSuname();
 		UserProfile userProfile = securityUserService.getUserProfile(suname);
 		model.addAttribute("profile", userProfile);
-		return "securityUser/profile";
+		return "security-user/profile";
 	}
 	
 	@PostMapping("/profile")
@@ -161,6 +162,29 @@ public class SecurityUserController {
 		session.setAttribute("sessProfile", userProfile.getImgPath());
 		securityUserService.updateSecurityUser(securityUser);
 		securityUserService.updateUserProfile(userProfile);
+		return "redirect:/security-user/profile";
+	}
+	
+	@Secured("ROLE_ADMIN")
+	@GetMapping("/list")
+	public String list(Model model) {
+		model.addAttribute("menu", "list");
+		model.addAttribute("category", category);
+		List<SecurityUser> list = securityUserService.getSecurityUserList();
+		model.addAttribute("userList", list);
+		return "security-user/list";
+	}
+	
+	@PostMapping("/password")
+	public String changePassword(String pwd, String newPwd, String newPwd2, 
+							@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		SecurityUser securityUser = principalDetails.getSecurityUser();
+		if (securityUser.getProvider().equals("ck world") &&
+				bCryptPasswordEncoder.matches(pwd, securityUser.getPwd()) &&
+				newPwd != null && newPwd.length() >= 4 && newPwd.equals(newPwd2)) {
+			securityUser.setPwd(bCryptPasswordEncoder.encode(newPwd));
+			securityUserService.updateSecurityUser(securityUser);
+		}
 		return "redirect:/security-user/profile";
 	}
 	

@@ -408,32 +408,32 @@
         </li><!-- End Message Nav -->      
         
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#members-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-person"></i><span>Members</span><i class="bi bi-chevron-down ms-auto"></i>
+          <a class="nav-link collapsed" data-bs-target="#security-user-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-person"></i><span>Security user</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="members-nav" class="nav-content collapse" th:classappend="${category == 'members' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+          <ul id="security-user-nav" class="nav-content collapse" th:classappend="${category == 'user' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/members/list" th:class="${menu == 'list' ? 'active' : ''}">
+              <a href="/security-user/list" th:class="${menu == 'list' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>List</span>
               </a>
             </li>
             <li>
-              <a href="/members/profile" th:class="${menu == 'profile' ? 'active' : ''}">
+              <a href="/security-user/profile" th:class="${menu == 'profile' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Profile</span>
               </a>
             </li>
             <li>
-              <a href="/members/register" th:class="${menu == 'register' ? 'active' : ''}">
+              <a href="/security-user/register" th:class="${menu == 'register' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Register</span>
               </a>
             </li>
             <li>
-              <a href="/members/login" th:class="${menu == 'login' ? 'active' : ''}">
+              <a href="/security-user/login" th:class="${menu == 'login' ? 'active' : ''}">
                 <i class="bi bi-circle"></i><span>Login</span>
               </a>
             </li>
           </ul>
-        </li><!-- End Members Nav -->
+        </li><!-- End Security User Nav -->
   
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#pages-nav" data-bs-toggle="collapse" href="#">

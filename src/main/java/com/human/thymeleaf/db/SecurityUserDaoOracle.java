@@ -22,7 +22,7 @@ public interface SecurityUserDaoOracle {
 	@Select("select * from securityUser where email=#{email}")
 	SecurityUser findByEmail(String email);
 	
-	@Select("select * from securityUser")
+	@Select("select * from securityUser order by suid")
 	List<SecurityUser> getSecurityUserList();
 	
 	@Insert("insert into securityUser values(default, #{suname}, #{pwd}, #{email}, "

@@ -15,6 +15,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.human.thymeleaf.auth.PrincipalDetails;
 
 @Controller
 @RequestMapping("/file")
@@ -61,4 +64,20 @@ public class FileController {
 		}
 		return sessMid + "_" + filename;
 	}
+	
+	@ResponseBody
+	@PostMapping("/userProfileUpload")
+	public String userProfileUpload(MultipartFile file, 
+						@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		String filename = file.getOriginalFilename();
+		String suname = principalDetails.getSecurityUser().getSuname();
+		String profilePath = uploadDir + "profileUpload/" + suname + "_" + filename;
+		try {
+			file.transferTo(new File(profilePath));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "/file/profileDownload/" + suname + "_" + filename;
+	}
+	
 }
