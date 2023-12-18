@@ -5,12 +5,16 @@ import java.util.List;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.human.thymeleaf.auth.PrincipalDetails;
 import com.human.thymeleaf.entity.Message;
 import com.human.thymeleaf.entity.Notification;
+import com.human.thymeleaf.entity.SecurityUser;
 import com.human.thymeleaf.service.MessageService;
 import com.human.thymeleaf.service.NotificationService;
 
@@ -20,21 +24,24 @@ public class HomeController {
 	@Autowired MessageService msgService;
 	
 	@GetMapping(value= {"/", "/index"})
-	public String index(HttpSession session, Model model) {
-		String sessMid, sessMname, sessProfile;
-		if (session.getAttribute("sessMid") == null) {
-			sessMid = "james";
-			sessMname = "James Dean";
-			sessProfile = "james.jpg";
-			session.setAttribute("sessMid", sessMid);
-			session.setAttribute("sessMname", sessMname);
-			session.setAttribute("sessProfile", sessProfile);
-		}
-		sessMid = (String) session.getAttribute("sessMid");
-		List<Notification> notiList = notiService.getNotificationList(sessMid, 0);
-		List<Message> msgList = msgService.getMessageList(sessMid, MessageService.MSG_NEW);
-		int notiNum = notiList.size();
-		int msgNum = msgService.getMessageSize(sessMid, MessageService.MSG_NEW);
+	public String index(HttpSession session, Model model,
+						@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		SecurityUser securityUser = principalDetails.getSecurityUser();
+		int sessSuid = securityUser.getSuid();
+		String sessMid = securityUser.getSuname();
+		session.setAttribute("sessSuid", sessSuid);
+		session.setAttribute("sessMid", sessMid);
+		session.setAttribute("sessMname", securityUser.getNickname());
+		session.setAttribute("sessProfile", securityUser.getImgPath());
+		
+//		List<Notification> notiList = notiService.getNotificationList(sessMid, 0);
+//		List<Message> msgList = msgService.getMessageList(sessMid, MessageService.MSG_NEW);
+//		int notiNum = notiList.size();
+//		int msgNum = msgService.getMessageSize(sessMid, MessageService.MSG_NEW);
+		List<Notification> notiList = null;
+		List<Message> msgList = null;
+		int notiNum = 0;
+		int msgNum = 0;
 		session.setAttribute("notiNum", notiNum);
 		session.setAttribute("notiList", notiList);
 		session.setAttribute("msgNum", msgNum);
@@ -48,5 +55,11 @@ public class HomeController {
 		model.addAttribute("footMsg", "CK World Corp.");
 		return "hello";
 	}
-
+	
+	@ResponseBody
+	@GetMapping("/success")
+	public String success(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		return "<h1>/success</h1><br>" + principalDetails.getSecurityUser();
+	}
+	
 }

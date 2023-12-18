@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.human.thymeleaf.auth.PrincipalDetails;
+import com.human.thymeleaf.entity.Member;
+import com.human.thymeleaf.entity.Profile;
 import com.human.thymeleaf.entity.SecurityUser;
 import com.human.thymeleaf.entity.UserProfile;
 import com.human.thymeleaf.service.SecurityUserService;
@@ -35,6 +38,7 @@ public class SecurityUserController {
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Value("${spring.servlet.multipart.location}") private String uploadDir;
 	private final Logger log = LoggerFactory.getLogger(getClass());
+	private String category = "user";
 	
 	@ResponseBody
 	@GetMapping("/success")
@@ -77,9 +81,17 @@ public class SecurityUserController {
 	
 	@ResponseBody
 	@GetMapping("/both")
-	public String both(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		log.debug("SecurityUser: " + principalDetails.getSecurityUser());
-		return "<h1>both success</h1><br>" + "SecurityUser: " + principalDetails.getSecurityUser();
+	public String both(HttpSession session,  Authentication authentication,
+						@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//		log.debug("SecurityUser: " + principalDetails.getSecurityUser());
+//		SecurityContext context = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+//		System.out.println(context.getAuthentication().toString());
+//		PrincipalDetails detail = (PrincipalDetails) context.getAuthentication().getPrincipal();
+//		System.out.println("context username: " + detail.getUsername());
+		PrincipalDetails principalDetail = (PrincipalDetails) authentication.getPrincipal();
+//		System.out.println("authentication username: " + principalDetail.getUsername());
+		return "<h1>both success</h1><br>" + "SecurityUser: " + principalDetails.getSecurityUser()
+				+ "<br><br>" + authentication + "<br><br>" + principalDetail.getSecurityUser();
 	}
 	
 	@ResponseBody
@@ -123,14 +135,33 @@ public class SecurityUserController {
 	
 	@GetMapping("/login")
 	public String loginForm() {
-		log.info("loginForm()");
+		log.trace("========================== loginForm()");
 		return "securityUser/login";
 	}
 	
-//	@PostMapping("/login")
-//	public String loginProc(String suname, String pwd) {
-//		System.out.println("suname: " + suname + ", pwd: " + pwd);
-//		return "redirect:/security-user/success";
-//	}
+	@GetMapping("/profile")
+	public String profile(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		log.trace("========================== profile()");
+		model.addAttribute("menu", "profile");
+		model.addAttribute("category", category);
+		
+		String suname = principalDetails.getSecurityUser().getSuname();
+		UserProfile userProfile = securityUserService.getUserProfile(suname);
+		model.addAttribute("profile", userProfile);
+		return "securityUser/profile";
+	}
+	
+	@PostMapping("/profile")
+	public String profileProc(UserProfile userProfile, HttpSession session,
+							@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		SecurityUser securityUser = principalDetails.getSecurityUser();
+		securityUser.setEmail(userProfile.getEmail());
+		securityUser.setNickname(userProfile.getNickname());
+		securityUser.setImgPath(userProfile.getImgPath());
+		session.setAttribute("sessProfile", userProfile.getImgPath());
+		securityUserService.updateSecurityUser(securityUser);
+		securityUserService.updateUserProfile(userProfile);
+		return "redirect:/security-user/profile";
+	}
 	
 }

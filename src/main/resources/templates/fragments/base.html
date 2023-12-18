@@ -135,7 +135,8 @@
           <li class="nav-item dropdown pe-3">
   
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              <img th:src="@{/file/profileDownload/{image}(image=${session.sessProfile})}" alt="Profile" class="rounded-circle">
+              <img th:src="${session.sessProfile}" alt="Profile" class="rounded-circle">
+              <!-- <img th:src="@{/file/profileDownload/{image}(image=${session.sessProfile})}" alt="Profile" class="rounded-circle"> -->
               <span class="d-none d-md-block dropdown-toggle ps-2" th:text="${session.sessMname}"></span>
             </a><!-- End Profile Image Icon -->
   
@@ -147,7 +148,7 @@
               <li><hr class="dropdown-divider"></li>
   
               <li>
-                <a class="dropdown-item d-flex align-items-center" href="/members/profile">
+                <a class="dropdown-item d-flex align-items-center" href="/security-user/profile">
                   <i class="bi bi-person"></i><span>My Profile</span>
                 </a>
               </li>
@@ -161,7 +162,7 @@
               <li><hr class="dropdown-divider"></li>
   
               <li>
-                <a class="dropdown-item d-flex align-items-center" href="/members/logout">
+                <a class="dropdown-item d-flex align-items-center" href="/security-user/logout">
                   <i class="bi bi-box-arrow-right"></i><span>로그아웃</span>
                 </a>
               </li>

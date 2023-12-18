@@ -38,7 +38,7 @@ public class SpringSecurityConfig {
 				.loginProcessingUrl("/security-user/login")		// 로그인 처리(post) url, spring이 낚아챔
 				.usernameParameter("suname")
 				.passwordParameter("pwd")
-				.defaultSuccessUrl("/security-user/both", true) 	// 성공시 이동할 페이지
+				.defaultSuccessUrl("/index", true) 	// 성공시 이동할 페이지
 				.permitAll() 			// 
 			)
 			.oauth2Login(oauth2 -> oauth2
@@ -48,10 +48,12 @@ public class SpringSecurityConfig {
 				// 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도 함
 				// 4-2. 구글이 제공하는 정보 + 추가적인 정보를 수집해야 함(예, 주소, 등급 등)
 				.userInfoEndpoint(user -> user.userService(principalOAuth2UserService))
-				.defaultSuccessUrl("/security-user/both", true) 	// 성공시 이동할 페이지
+				.defaultSuccessUrl("/index", true) 	// 성공시 이동할 페이지
 			)
 			.logout(logout -> logout
 				.logoutUrl("/security-user/logout").permitAll()
+				.invalidateHttpSession(true)		// 로그아웃 후 세션 초기화 설정
+				.deleteCookies("JSESSIONID")		// 로그아웃 후 쿠키 삭제 설정
 			);
 		return http.build();
 	}
