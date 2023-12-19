@@ -72,27 +72,24 @@
             </a><!-- End Notification Icon -->
   
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-              <li class="dropdown-header">
+              <li class="dropdown-header me-5">
                 <span th:text="${session.notiNum}"></span> 개의 새로운 알림이 있습니다.
-                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
               </li>
               <li><hr class="dropdown-divider"></li>
 
               <div th:each="noti: ${session.notiList}">
                 <li class="notification-item">
-                  <i class="bi bi-exclamation-circle text-warning"></i>
+                  <a th:href="@{/notification/read/{id}(id=${noti.nid})}"><i class="bi bi-check-circle text-primary"></i></a>
                   <div>
                     <h4 th:text="${noti.title}"></h4>
                     <p th:text="${noti.content}"></p>
                     <p th:text="${#strings.replace(#strings.substring(noti.genTime,0,19),'T',' ')}"></p>
                   </div>
                 </li>
-                <li><hr class="dropdown-divider"></li>
+                <div th:unless="${notiStat.last}"><!-- th:each 반복 상태를 추적할 수 있는 status 변수는 "반복대상 오브젝트명" + "Stat" 변수명으로 접근 가능 -->
+                  <li><hr class="dropdown-divider"></li>
+                </div>
               </div>
-
-              <li class="dropdown-footer">
-                <a href="#">모든 알림 보기</a>
-              </li>
             </ul><!-- End Notification Dropdown Items -->
           </li><!-- End Notification Nav -->
   
@@ -116,7 +113,6 @@
                   <span th:text="${msg.srcName}"></span>
                   </div>
                   <div class="mt-1">
-                    <!-- <a th:href="@{/message/view/${msg.mid}}"> -->
                     <a th:href="@{/message/view/{id}(id=${msg.mid})}">
                       <span th:text="${#strings.length(msg.content) > 40 ? #strings.substring(msg.content,0,40) : msg.content}"></span>
                     </a>
@@ -136,7 +132,6 @@
   
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
               <img th:src="${session.sessProfile}" alt="Profile" class="rounded-circle">
-              <!-- <img th:src="@{/file/profileDownload/{image}(image=${session.sessProfile})}" alt="Profile" class="rounded-circle"> -->
               <span class="d-none d-md-block dropdown-toggle ps-2" th:text="${session.sessMname}"></span>
             </a><!-- End Profile Image Icon -->
   

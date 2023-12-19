@@ -25,7 +25,7 @@ public interface NotificationDaoOracle {
 	@Insert("insert into notification values(default, #{dstSuid}, #{title}, #{content}, default, default)")
 	void insertNotification(Notification notification);
 	
-	@Update("update notification set title=#{title}, content=#{content}, genTime=systimestamp where nid=#{nid}")
+	@Update("update notification set status=#{status} where nid=#{nid}")
 	void updateNotification(Notification notification);
 	
 	@Delete("delete from notification where nid=#{nid}")
