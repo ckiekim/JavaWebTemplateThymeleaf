@@ -29,10 +29,11 @@
             <div class="card-body">
               <h5 class="card-title">Message Write</h5>
               <form action="/message/write" method="post">
+                <input type="hidden" name="dstSuid" th:value="${message.srcSuid}">
                 <table class="table table-borderless">
                   <tr>
                     <td style="width: 10%;"><label class="col-form-label">수신</label></td>
-                    <td style="width: 90%;"><input class="form-control" type="text" name="mto" th:value=${mto}></td>
+                    <td style="width: 90%;"><input class="form-control" type="text" id="dstSname" th:value="${message.srcName}"></td>
                   </tr>
                   <tr>
                     <td><label class="col-form-label">내용</label></td>

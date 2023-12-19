@@ -25,14 +25,14 @@ public class MessageServiceOracleImpl implements MessageService {
 	}
 
 	@Override
-	public List<Message> getMessageList(String mto, int status) {
-		List<Message> list = messageDao.getMessageList(mto, status);
+	public List<Message> getMessageList(int dstSuid, int status) {
+		List<Message> list = messageDao.getMessageList(dstSuid, status);
 		return list;
 	}
 
 	@Override
-	public int getMessageSize(String mto, int status) {
-		int size = messageDao.getMessageSize(mto, status);
+	public int getMessageSize(int dstSuid, int status) {
+		int size = messageDao.getMessageSize(dstSuid, status);
 		return size;
 	}
 
@@ -42,8 +42,8 @@ public class MessageServiceOracleImpl implements MessageService {
 	}
 
 	@Override
-	public void updateMessage(Message message) {
-		messageDao.updateMessage(message);
+	public void updateMessageStatus(Message message) {
+		messageDao.updateMessageStatus(message);
 	}
 
 	@Override

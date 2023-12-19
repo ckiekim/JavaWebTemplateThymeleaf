@@ -112,8 +112,8 @@
               <div th:each="msg: ${session.msgList}">
                 <li class="message-item">
                   <div>
-                  <img th:src="@{/file/profileDownload/{image}(image=${msg.fromProfile})}" class="rounded-circle">
-                  <span th:text="${msg.fromName}"></span>
+                  <img th:src="${msg.srcProfile}" class="rounded-circle">
+                  <span th:text="${msg.srcName}"></span>
                   </div>
                   <div class="mt-1">
                     <!-- <a th:href="@{/message/view/${msg.mid}}"> -->
@@ -127,7 +127,7 @@
               </div>
 
               <li class="dropdown-footer">
-                <a th:href="@{/message/list/{id}(id=${session.sessMid})}">메세지 목록 보기</a>
+                <a th:href="@{/message/list/{id}(id=${session.sessSuid})}">메세지 목록 보기</a>
               </li>
             </ul><!-- End Messages Dropdown Items -->
           </li><!-- End Messages Nav -->

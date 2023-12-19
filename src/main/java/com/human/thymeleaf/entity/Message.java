@@ -4,38 +4,57 @@ import java.time.LocalDateTime;
 
 public class Message {
 	private int mid;
-	private String mfrom;
-	private String mto;
+	private int srcSuid;
+	private int dstSuid;
 	private String content;
 	private int status;
 	private LocalDateTime genTime;
-	private String fromName;
-	private String fromProfile;
+	private String srcName;
+	private String dstName;
+	private String srcProfile;
 	
 	public Message() { }
-	public Message(String mfrom, String mto, String content) {
-		this.mfrom = mfrom;
-		this.mto = mto;
+	public Message(int srcSuid, int dstSuid, String content) {
+		this.srcSuid = srcSuid;
+		this.dstSuid = dstSuid;
 		this.content = content;
 	}
-	public Message(int mid, String mfrom, String mto, String content, int status, LocalDateTime genTime) {
+	public Message(int mid, int srcSuid, int dstSuid, String content, int status, LocalDateTime genTime) {
 		this.mid = mid;
-		this.mfrom = mfrom;
-		this.mto = mto;
+		this.srcSuid = srcSuid;
+		this.dstSuid = dstSuid;
 		this.content = content;
 		this.status = status;
 		this.genTime = genTime;
 	}
-	public Message(int mid, String mfrom, String mto, String content, int status, LocalDateTime genTime,
-			String fromName, String fromProfile) {
-		this.mid = mid;
-		this.mfrom = mfrom;
-		this.mto = mto;
+	public Message(int mid, int srcSuid, int dstSuid, String content, int status, LocalDateTime genTime,
+			String srcName, String srcProfile) {
+		this.srcSuid = srcSuid;
+		this.dstSuid = dstSuid;
 		this.content = content;
 		this.status = status;
 		this.genTime = genTime;
-		this.fromName = fromName;
-		this.fromProfile = fromProfile;
+		this.srcName = srcName;
+		this.srcProfile = srcProfile;
+	}
+	public Message(int mid, int srcSuid, int dstSuid, String content, int status, LocalDateTime genTime, 
+			String srcName, String dstName, String srcProfile) {
+		this.mid = mid;
+		this.srcSuid = srcSuid;
+		this.dstSuid = dstSuid;
+		this.content = content;
+		this.status = status;
+		this.genTime = genTime;
+		this.srcName = srcName;
+		this.dstName = dstName;
+		this.srcProfile = srcProfile;
+	}
+	
+	@Override
+	public String toString() {
+		return "Message [mid=" + mid + ", srcSuid=" + srcSuid + ", dstSuid=" + dstSuid + ", content=" + content
+				+ ", status=" + status + ", genTime=" + genTime + ", srcName=" + srcName + ", dstName=" + dstName
+				+ ", srcProfile=" + srcProfile + "]";
 	}
 	
 	public int getMid() {
@@ -44,17 +63,17 @@ public class Message {
 	public void setMid(int mid) {
 		this.mid = mid;
 	}
-	public String getMfrom() {
-		return mfrom;
+	public int getSrcSuid() {
+		return srcSuid;
 	}
-	public void setMfrom(String mfrom) {
-		this.mfrom = mfrom;
+	public void setSrcSuid(int srcSuid) {
+		this.srcSuid = srcSuid;
 	}
-	public String getMto() {
-		return mto;
+	public int getDstSuid() {
+		return dstSuid;
 	}
-	public void setMto(String mto) {
-		this.mto = mto;
+	public void setDstSuid(int dstSuid) {
+		this.dstSuid = dstSuid;
 	}
 	public String getContent() {
 		return content;
@@ -74,22 +93,22 @@ public class Message {
 	public void setGenTime(LocalDateTime genTime) {
 		this.genTime = genTime;
 	}
-	public String getFromName() {
-		return fromName;
+	public String getSrcName() {
+		return srcName;
 	}
-	public void setFromName(String fromName) {
-		this.fromName = fromName;
+	public void setSrcName(String srcName) {
+		this.srcName = srcName;
 	}
-	public String getFromProfile() {
-		return fromProfile;
+	public String getDstName() {
+		return dstName;
 	}
-	public void setFromProfile(String fromProfile) {
-		this.fromProfile = fromProfile;
+	public void setDstName(String dstName) {
+		this.dstName = dstName;
 	}
-	
-	@Override
-	public String toString() {
-		return "Message [mid=" + mid + ", mfrom=" + mfrom + ", mto=" + mto + ", content=" + content + ", status="
-				+ status + ", genTime=" + genTime + ", fromName=" + fromName + ", fromProfile=" + fromProfile + "]";
+	public String getSrcProfile() {
+		return srcProfile;
+	}
+	public void setSrcProfile(String srcProfile) {
+		this.srcProfile = srcProfile;
 	}
 }

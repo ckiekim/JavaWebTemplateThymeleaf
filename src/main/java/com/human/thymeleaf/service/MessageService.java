@@ -13,13 +13,13 @@ public interface MessageService {
 	
 	List<Message> getMessageListAll();
 	
-	List<Message> getMessageList(String mto, int status);
+	List<Message> getMessageList(int dstSuid, int status);
 	
-	int getMessageSize(String mto, int status);
+	int getMessageSize(int dstSuid, int status);
 	
 	void insertMessage(Message message);
 	
-	void updateMessage(Message message);
+	void updateMessageStatus(Message message);
 	
 	void deleteMessage(int mid);
 	

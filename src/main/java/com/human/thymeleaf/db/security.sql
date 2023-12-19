@@ -46,7 +46,6 @@ CREATE TABLE message
 	content varchar2(256) NOT NULL,
 	status number DEFAULT 0,
 	genTime timestamp DEFAULT SYSDATE,
-	srcName varchar2(40),
 	PRIMARY KEY (mid)
 );
 

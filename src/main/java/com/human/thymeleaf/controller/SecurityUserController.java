@@ -165,7 +165,6 @@ public class SecurityUserController {
 		return "redirect:/security-user/profile";
 	}
 	
-	@Secured("ROLE_ADMIN")
 	@GetMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("menu", "list");
