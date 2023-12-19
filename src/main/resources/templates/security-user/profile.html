@@ -252,7 +252,7 @@
                   </form><!-- End settings Form -->
                 </div>
 
-                <div class="tab-pane fade pt-3" id="profile-change-password">
+                <div th:if="${session.sessProvider == 'ck world'}" class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
                   <form action="/security-user/password" method="post">
                     <div class="row mb-3">
@@ -277,6 +277,9 @@
                       <button type="submit" class="btn btn-primary">Change Password</button>
                     </div>
                   </form><!-- End Change Password Form -->
+                </div>
+                <div th:unless="${session.sessProvider == 'ck world'}" class="tab-pane fade pt-3" id="profile-change-password">
+                  <p>소셜 로그인을 하셨으면 패스워드를 변경할 수 없습니다.</p>
                 </div>
               </div><!-- End Bordered Tabs -->
 

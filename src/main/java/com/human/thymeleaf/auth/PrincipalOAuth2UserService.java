@@ -12,13 +12,15 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.human.thymeleaf.entity.Notification;
 import com.human.thymeleaf.entity.SecurityUser;
+import com.human.thymeleaf.service.NotificationService;
 import com.human.thymeleaf.service.SecurityUserService;
 
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
-
 	@Autowired private SecurityUserService securityUserService;
+	@Autowired private NotificationService notificationService;
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -55,6 +57,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				securityUserService.insertSecurityUser(securityUser);
 				securityUser = securityUserService.findByName(suname);
 				securityUserService.insertUserProfile(securityUser.getSuid());
+				
+				Notification notification = new Notification(securityUser.getSuid(), "회원가입 환영", "구글 계정을 통해 회원가입이 되었습니다.");
+				notificationService.insertNotification(notification);
 			}
 			break;
 
@@ -70,6 +75,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				securityUserService.insertSecurityUser(securityUser);
 				securityUser = securityUserService.findByName(suname);
 				securityUserService.insertUserProfile(securityUser.getSuid());
+				
+				Notification notification = new Notification(securityUser.getSuid(), "회원가입 환영", "깃허브 계정을 통해 회원가입이 되었습니다.");
+				notificationService.insertNotification(notification);
 			}
 			break;
 			
@@ -87,6 +95,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				securityUserService.insertSecurityUser(securityUser);
 				securityUser = securityUserService.findByName(suname);
 				securityUserService.insertUserProfile(securityUser.getSuid());
+				
+				Notification notification = new Notification(securityUser.getSuid(), "회원가입 환영", "네이버 계정을 통해 회원가입이 되었습니다.");
+				notificationService.insertNotification(notification);
 			}
 			break;
 			
@@ -104,6 +115,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 				securityUserService.insertSecurityUser(securityUser);
 				securityUser = securityUserService.findByName(suname);
 				securityUserService.insertUserProfile(securityUser.getSuid());
+				
+				Notification notification = new Notification(securityUser.getSuid(), "회원가입 환영", "카카오 계정을 통해 회원가입이 되었습니다.");
+				notificationService.insertNotification(notification);
 			}
 			break;
 		}

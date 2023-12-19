@@ -24,9 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.human.thymeleaf.auth.PrincipalDetails;
 import com.human.thymeleaf.entity.Member;
+import com.human.thymeleaf.entity.Notification;
 import com.human.thymeleaf.entity.Profile;
 import com.human.thymeleaf.entity.SecurityUser;
 import com.human.thymeleaf.entity.UserProfile;
+import com.human.thymeleaf.service.NotificationService;
 import com.human.thymeleaf.service.SecurityUserService;
 
 
@@ -36,6 +38,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/security-user")
 public class SecurityUserController {
 	@Autowired private SecurityUserService securityUserService;
+	@Autowired private NotificationService notificationService;
 	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Value("${spring.servlet.multipart.location}") private String uploadDir;
 	private final Logger log = LoggerFactory.getLogger(getClass());
@@ -131,6 +134,9 @@ public class SecurityUserController {
 		securityUserService.insertSecurityUser(securityUser);
 		securityUser = securityUserService.findByName(suname);
 		securityUserService.insertUserProfile(securityUser.getSuid());
+		
+		Notification notification = new Notification(securityUser.getSuid(), "회원가입 환영", "회원 가입을 환영합니다.");
+		notificationService.insertNotification(notification);
 		return "redirect:/security-user/login";
 	}
 	
@@ -162,6 +168,12 @@ public class SecurityUserController {
 		session.setAttribute("sessProfile", userProfile.getImgPath());
 		securityUserService.updateSecurityUser(securityUser);
 		securityUserService.updateUserProfile(userProfile);
+		
+		Notification notification = new Notification(securityUser.getSuid(), "프로파일 변경", "사용자 프로파일이 변경되었습니다.");
+		notificationService.insertNotification(notification);
+		List<Notification> notiList = notificationService.getNotificationList(securityUser.getSuid(), NotificationService.NOTI_NEW);
+		session.setAttribute("notiNum", notiList.size());
+		session.setAttribute("notiList", notiList);
 		return "redirect:/security-user/profile";
 	}
 	
@@ -175,7 +187,7 @@ public class SecurityUserController {
 	}
 	
 	@PostMapping("/password")
-	public String changePassword(String pwd, String newPwd, String newPwd2, 
+	public String changePassword(String pwd, String newPwd, String newPwd2, HttpSession session,
 							@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		SecurityUser securityUser = principalDetails.getSecurityUser();
 		if (securityUser.getProvider().equals("ck world") &&
@@ -183,6 +195,12 @@ public class SecurityUserController {
 				newPwd != null && newPwd.length() >= 4 && newPwd.equals(newPwd2)) {
 			securityUser.setPwd(bCryptPasswordEncoder.encode(newPwd));
 			securityUserService.updateSecurityUser(securityUser);
+			
+			Notification notification = new Notification(securityUser.getSuid(), "패스워드 변경", "패스워드가 변경되었습니다.");
+			notificationService.insertNotification(notification);
+			List<Notification> notiList = notificationService.getNotificationList(securityUser.getSuid(), NotificationService.NOTI_NEW);
+			session.setAttribute("notiNum", notiList.size());
+			session.setAttribute("notiList", notiList);
 		}
 		return "redirect:/security-user/profile";
 	}

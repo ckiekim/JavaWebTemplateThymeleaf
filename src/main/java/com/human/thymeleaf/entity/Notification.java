@@ -4,25 +4,31 @@ import java.time.LocalDateTime;
 
 public class Notification {
 	private int nid;
-	private String nto;
+	private int dstSuid;
 	private String title;
 	private String content;
 	private int status;
 	private LocalDateTime genTime;
 	
 	public Notification() { }
-	public Notification(String nto, String title, String content) {
-		this.nto = nto;
+	public Notification(int dstSuid, String title, String content) {
+		this.dstSuid = dstSuid;
 		this.title = title;
 		this.content = content;
 	}
-	public Notification(int nid, String nto, String title, String content, int status, LocalDateTime genTime) {
+	public Notification(int nid, int dstSuid, String title, String content, int status, LocalDateTime genTime) {
 		this.nid = nid;
-		this.nto = nto;
+		this.dstSuid = dstSuid;
 		this.title = title;
 		this.content = content;
 		this.status = status;
 		this.genTime = genTime;
+	}
+	
+	@Override
+	public String toString() {
+		return "Notification [nid=" + nid + ", dstSuid=" + dstSuid + ", title=" + title + ", content=" + content
+				+ ", status=" + status + ", genTime=" + genTime + "]";
 	}
 	
 	public int getNid() {
@@ -31,11 +37,11 @@ public class Notification {
 	public void setNid(int nid) {
 		this.nid = nid;
 	}
-	public String getNto() {
-		return nto;
+	public int getDstSuid() {
+		return dstSuid;
 	}
-	public void setNto(String nto) {
-		this.nto = nto;
+	public void setDstSuid(int dstSuid) {
+		this.dstSuid = dstSuid;
 	}
 	public String getTitle() {
 		return title;
@@ -60,11 +66,5 @@ public class Notification {
 	}
 	public void setGenTime(LocalDateTime genTime) {
 		this.genTime = genTime;
-	}
-	
-	@Override
-	public String toString() {
-		return "Notification [nid=" + nid + ", nto=" + nto + ", title=" + title + ", content=" + content + ", status="
-				+ status + ", genTime=" + genTime + "]";
 	}
 }

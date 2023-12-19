@@ -30,18 +30,14 @@ public class HomeController {
 		int sessSuid = securityUser.getSuid();
 		String sessMid = securityUser.getSuname();
 		session.setAttribute("sessSuid", sessSuid);
-		session.setAttribute("sessMid", sessMid);
+		session.setAttribute("sessProvider", securityUser.getProvider());
 		session.setAttribute("sessMname", securityUser.getNickname());
 		session.setAttribute("sessProfile", securityUser.getImgPath());
 		
-//		List<Notification> notiList = notiService.getNotificationList(sessMid, 0);
+		List<Notification> notiList = notiService.getNotificationList(sessSuid, NotificationService.NOTI_NEW);
 		List<Message> msgList = msgService.getMessageList(sessSuid, MessageService.MSG_NEW);
-//		int notiNum = notiList.size();
+		int notiNum = notiList.size();
 		int msgNum = msgService.getMessageSize(sessSuid, MessageService.MSG_NEW);
-		List<Notification> notiList = null;
-//		List<Message> msgList = null;
-		int notiNum = 0;
-//		int msgNum = 0;
 		session.setAttribute("notiNum", notiNum);
 		session.setAttribute("notiList", notiList);
 		session.setAttribute("msgNum", msgNum);

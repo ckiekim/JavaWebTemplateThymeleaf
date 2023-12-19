@@ -25,8 +25,8 @@ public class NotificationServiceOracleImpl implements NotificationService {
 	}
 
 	@Override
-	public List<Notification> getNotificationList(String nto, int status) {
-		List<Notification> list = notiDao.getNotificationList(nto, status);
+	public List<Notification> getNotificationList(int dstSuid, int status) {
+		List<Notification> list = notiDao.getNotificationList(dstSuid, status);
 		return list;
 	}
 

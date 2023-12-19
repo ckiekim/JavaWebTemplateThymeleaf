@@ -19,10 +19,10 @@ public interface NotificationDaoOracle {
 	@Select("select * from notification")
 	List<Notification> getNotificationListAll();
 	
-	@Select("select * from notification where nto=#{nto} and status=#{status}")
-	List<Notification> getNotificationList(String nto, int status);
+	@Select("select * from notification where dstSuid=#{dstSuid} and status=#{status}")
+	List<Notification> getNotificationList(int dstSuid, int status);
 	
-	@Insert("insert into notification values(default, #{nto}, #{title}, #{content}, default, default)")
+	@Insert("insert into notification values(default, #{dstSuid}, #{title}, #{content}, default, default)")
 	void insertNotification(Notification notification);
 	
 	@Update("update notification set title=#{title}, content=#{content}, genTime=systimestamp where nid=#{nid}")
