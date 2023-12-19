@@ -22,7 +22,7 @@ import com.human.thymeleaf.service.SecurityUserService;
 @RequestMapping("/message")
 public class MessageController {
 	private String category = "message";
-	@Autowired private MessageService msgService;
+	@Autowired private MessageService messageService;
 	@Autowired private SecurityUserService userService;
 	
 	@GetMapping(value = {"/list/{dstSuid}", "/list"})
@@ -31,9 +31,9 @@ public class MessageController {
 		model.addAttribute("category", category);
 		List<Message> list = null;
 		if (dstSuid == null)
-			list = msgService.getMessageListAll();
+			list = messageService.getMessageListAll();
 		else {
-			list = msgService.getMessageList(dstSuid, 0);
+			list = messageService.getMessageList(dstSuid, 0);
 			String sessMname = (String) session.getAttribute("sessMname");
 			list.forEach(x -> x.setDstName(sessMname));
 		}
@@ -52,7 +52,7 @@ public class MessageController {
 			model.addAttribute("userList", list);
 			return "message/write-no-to";
 		} else {
-			Message message = msgService.getMessage(mid);
+			Message message = messageService.getMessage(mid);
 			model.addAttribute("message", message);
 			return "message/write";
 		}
@@ -62,7 +62,7 @@ public class MessageController {
 	public String writeProc(int dstSuid, String content, HttpSession session) {
 		int sessSuid = (Integer) session.getAttribute("sessSuid");
 		Message message = new Message(sessSuid, dstSuid, content);
-		msgService.insertMessage(message);
+		messageService.insertMessage(message);
 		return "redirect:/message/list";
 	}
 	
@@ -73,29 +73,31 @@ public class MessageController {
 		String referer = request.getHeader("Referer");
 		model.addAttribute("referer", referer);
 		
-		Message message = msgService.getMessage(mid);
+		Message message = messageService.getMessage(mid);
 		message.setStatus(MessageService.MSG_READ);
-		msgService.updateMessageStatus(message);
+		messageService.updateMessageStatus(message);
 		model.addAttribute("message", message);
 		
 		int sessSuid = (Integer) session.getAttribute("sessSuid");
-		List<Message> msgList = msgService.getMessageList(sessSuid, MessageService.MSG_NEW);
-		session.setAttribute("msgList", msgList);
-		int msgNum = msgService.getMessageSize(sessSuid, MessageService.MSG_NEW);
+		int msgNum = messageService.getMessageSize(sessSuid, MessageService.MSG_NEW);
+		List<Message> msgList = messageService.getMessageList(sessSuid, MessageService.MSG_NEW);
 		session.setAttribute("msgNum", msgNum);
+		session.setAttribute("msgList", msgList);
 		return "message/view";
 	}
 	
 	@GetMapping("/delete/{mid}")
 	public String delete(@PathVariable int mid, HttpServletRequest request, HttpSession session) {
-		Message message = msgService.getMessage(mid);
+		Message message = messageService.getMessage(mid);
 		message.setStatus(MessageService.MSG_DELETED);
-		msgService.updateMessageStatus(message);
+		messageService.updateMessageStatus(message);
 		String referer = request.getParameter("referer");
 		
 		int sessSuid = (Integer) session.getAttribute("sessSuid");
-		int msgNum = msgService.getMessageSize(sessSuid, MessageService.MSG_NEW);
+		int msgNum = messageService.getMessageSize(sessSuid, MessageService.MSG_NEW);
+		List<Message> msgList = messageService.getMessageList(sessSuid, MessageService.MSG_NEW);
 		session.setAttribute("msgNum", msgNum);
+		session.setAttribute("msgList", msgList);
 		return "redirect:" + referer;
 	}
 }

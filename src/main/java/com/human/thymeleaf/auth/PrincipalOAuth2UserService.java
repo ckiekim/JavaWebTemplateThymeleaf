@@ -40,7 +40,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 //		System.out.println("========================");
 		
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		System.out.println("getAttributes(): " + oAuth2User.getAttributes());
+		log.info("getAttributes(): " + oAuth2User.getAttributes());
 		
 		// 회원가입
 		String provider = userRequest.getClientRegistration().getRegistrationId();	// google

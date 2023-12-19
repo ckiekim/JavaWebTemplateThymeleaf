@@ -1,5 +1,7 @@
 package com.human.thymeleaf.auth;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,8 +16,8 @@ import com.human.thymeleaf.service.SecurityUserService;
 // loadUserByUsername() method가 실행됨
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
-	
 	@Autowired private SecurityUserService securityUserService;
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	// Security Session 내에 (Authentication 내에 UserDetails)이 들어감
 	// method 종료시 @AuthenticationPrincipal 이 만들어짐
@@ -24,7 +26,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 //		System.out.println("loadUserByUsername(), username: " + username);
 		SecurityUser securityUser = securityUserService.findByName(username);
 		if (securityUser != null) {
-			System.out.println("Login 완료: " + securityUser.getSuname());
+			log.debug("Login 완료: " + securityUser.getSuname());
 			return new PrincipalDetails(securityUser);
 		}
 		return null;

@@ -60,25 +60,15 @@
                     <td th:text="${#strings.replace(#strings.substring(message.genTime,0,19),'T',' ')}"></td>
                     <td>
                       <th:block th:if="${session.sessSuid == message.dstSuid}">
-                        <a th:href="@{/message/view/{id}(id=${message.mid})}"><i class="bi bi-eye-fill"></i></a>
-                        <a th:href="@{/message/write/{to}(to=${message.mid})}"><i class="bi bi-pencil-fill"></i></a>
-                        <a th:href="@{/message/delete/{id}?referer=/message/list(id=${message.mid})}"><i class="bi bi-trash-fill"></i></a>
+                        <a th:href="@{/message/view/{id}(id=${message.mid})}"><i class="bi bi-eye-fill"></i> <span class="small me-2">조회</span></a>
+                        <a th:href="@{/message/write/{to}(to=${message.mid})}"><i class="bi bi-pencil-fill"></i> <span class="small me-2">답장</span></a>
+                        <a th:href="@{/message/delete/{id}?referer=/message/list(id=${message.mid})}"><i class="bi bi-trash-fill"></i> <span class="small">삭제</span></a>
                       </th:block>
                       <th:block th:unless="${session.sessSuid == message.dstSuid}">
-                        <a href="#" class="disabled-link"><i class="bi bi-eye-fill"></i></a>
-                        <a href="#" class="disabled-link"><i class="bi bi-pencil-fill"></i></a>
-                        <a href="#" class="disabled-link"><i class="bi bi-trash-fill"></i></a>
+                        <a href="#" class="disabled-link"><i class="bi bi-eye-fill"></i> <span class="small me-2">조회</span></a>
+                        <a href="#" class="disabled-link"><i class="bi bi-pencil-fill"></i> <span class="small me-2">답장</span></a>
+                        <a href="#" class="disabled-link"><i class="bi bi-trash-fill"></i> <span class="small">삭제</span></a>
                       </th:block>
-                      <!-- <span th:if="${session.sessMid == message.mto}">
-                    	  <a href="@{/message/view/{id}(id=${message.mid})}"><i class="bi bi-eye-fill"></i></a>
-                        <a href="@{/message/write/{to}(to=${message.mfrom})}"><i class="bi bi-pencil-fill"></i></a>
-                        <a href="@{/message/delete/{id}?referer=/message/list(id=${message.mid})}"><i class="bi bi-trash-fill"></i></a>
-                      </span>
-                      <span th:if="${session.sessMid != message.mto}">
-                    	  <a href="#" class="disabled-link"><i class="bi bi-eye-fill"></i></a>
-                        <a href="#" class="disabled-link"><i class="bi bi-pencil-fill"></i></a>
-                        <a href="#" class="disabled-link"><i class="bi bi-trash-fill"></i></a>
-                      </span> -->
                     </td>
                   </tr>
                 </tbody>

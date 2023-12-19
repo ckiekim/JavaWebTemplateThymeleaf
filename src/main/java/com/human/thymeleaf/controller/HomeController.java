@@ -20,8 +20,8 @@ import com.human.thymeleaf.service.NotificationService;
 
 @Controller
 public class HomeController {
-	@Autowired NotificationService notiService;
-	@Autowired MessageService msgService;
+	@Autowired NotificationService notificationService;
+	@Autowired MessageService messageService;
 	
 	@GetMapping(value= {"/", "/index"})
 	public String index(HttpSession session, Model model,
@@ -34,10 +34,10 @@ public class HomeController {
 		session.setAttribute("sessMname", securityUser.getNickname());
 		session.setAttribute("sessProfile", securityUser.getImgPath());
 		
-		List<Notification> notiList = notiService.getNotificationList(sessSuid, NotificationService.NOTI_NEW);
-		List<Message> msgList = msgService.getMessageList(sessSuid, MessageService.MSG_NEW);
+		List<Notification> notiList = notificationService.getNotificationList(sessSuid, NotificationService.NOTI_NEW);
+		List<Message> msgList = messageService.getMessageList(sessSuid, MessageService.MSG_NEW);
 		int notiNum = notiList.size();
-		int msgNum = msgService.getMessageSize(sessSuid, MessageService.MSG_NEW);
+		int msgNum = messageService.getMessageSize(sessSuid, MessageService.MSG_NEW);
 		session.setAttribute("notiNum", notiNum);
 		session.setAttribute("notiList", notiList);
 		session.setAttribute("msgNum", msgNum);
