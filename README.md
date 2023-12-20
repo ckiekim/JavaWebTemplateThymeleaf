@@ -8,4 +8,9 @@
 - 휴먼교육센터 영등포
 - 2023.07 ~ 2023.12
 
-JSP version으로 만든 것을 2023년 12월부터 Thymeleaf version으로 변경해서 작성하고 있습니다.
+### 디자인 출처
+- Template Name: NiceAdmin
+- Updated: Nov 17 2023 with Bootstrap v5.3.2
+- Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+- Author: BootstrapMade.com
+- License: https://bootstrapmade.com/license/ 
