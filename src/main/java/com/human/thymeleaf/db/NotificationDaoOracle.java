@@ -16,7 +16,8 @@ public interface NotificationDaoOracle {
 	@Select("select * from notification where nid=#{nid}")
 	Notification getNotification(int nid);
 	
-	@Select("select * from notification")
+	@Select("select n.*, u.nickname dstName from notification n"
+			+ "  join securityUser u on n.dstSuid=u.suid order by nid desc")
 	List<Notification> getNotificationListAll();
 	
 	@Select("select * from notification where dstSuid=#{dstSuid} and status=#{status}")

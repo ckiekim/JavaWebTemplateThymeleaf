@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
+</head>
+<body>
+  <div th:insert="~{fragments/base :: top}"></div>
+  <div th:insert="~{fragments/base :: aside}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Notification List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Pages</li>
+          <li class="breadcrumb-item active">Notification List</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Notification List</h5>
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>수신</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>생성시각</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                  <tr th:each="noti: ${notiList}">
+                    <td th:text="${noti.nid}"></td>
+                    <td th:text="${noti.dstName}"></td>
+                    <td th:text="${noti.title}"></td>
+                    <td th:text="${noti.content}"></td>
+                    <td th:text="${#strings.replace(#strings.substring(noti.genTime,0,19),'T',' ')}"></td>
+                    <td>
+                      <th:block th:switch="${noti.status}">
+                        <span th:case="0">신규</span>
+                        <span th:case="1">읽음</span>
+                        <span th:case="2">삭제됨</span>
+                      </th:block>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:insert="~{fragments/base :: bottom}"></div>
+</body>
+</html>

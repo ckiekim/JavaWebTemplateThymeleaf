@@ -9,6 +9,7 @@ public class Notification {
 	private String content;
 	private int status;
 	private LocalDateTime genTime;
+	private String dstName;
 	
 	public Notification() { }
 	public Notification(int dstSuid, String title, String content) {
@@ -24,13 +25,29 @@ public class Notification {
 		this.status = status;
 		this.genTime = genTime;
 	}
+	public Notification(int nid, int dstSuid, String title, String content, int status, LocalDateTime genTime,
+			String dstName) {
+		this.nid = nid;
+		this.dstSuid = dstSuid;
+		this.title = title;
+		this.content = content;
+		this.status = status;
+		this.genTime = genTime;
+		this.dstName = dstName;
+	}
 	
 	@Override
 	public String toString() {
 		return "Notification [nid=" + nid + ", dstSuid=" + dstSuid + ", title=" + title + ", content=" + content
-				+ ", status=" + status + ", genTime=" + genTime + "]";
+				+ ", status=" + status + ", genTime=" + genTime + ", dstName=" + dstName + "]";
 	}
 	
+	public String getDstName() {
+		return dstName;
+	}
+	public void setDstName(String dstName) {
+		this.dstName = dstName;
+	}
 	public int getNid() {
 		return nid;
 	}
