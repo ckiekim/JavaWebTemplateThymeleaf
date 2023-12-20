@@ -1,8 +1,10 @@
 
 /* Drop Triggers */
 
+DROP TRIGGER TRI_board_bid;
 DROP TRIGGER TRI_message_mid;
 DROP TRIGGER TRI_notification_nid;
+DROP TRIGGER TRI_reply_rid;
 DROP TRIGGER TRI_securityUser_suid;
 DROP TRIGGER TRI_userProfile_pid;
 
@@ -10,6 +12,8 @@ DROP TRIGGER TRI_userProfile_pid;
 
 /* Drop Tables */
 
+DROP TABLE reply CASCADE CONSTRAINTS;
+DROP TABLE board CASCADE CONSTRAINTS;
 DROP TABLE message CASCADE CONSTRAINTS;
 DROP TABLE notification CASCADE CONSTRAINTS;
 DROP TABLE userProfile CASCADE CONSTRAINTS;
@@ -19,8 +23,10 @@ DROP TABLE securityUser CASCADE CONSTRAINTS;
 
 /* Drop Sequences */
 
+DROP SEQUENCE SEQ_board_bid;
 DROP SEQUENCE SEQ_message_mid;
 DROP SEQUENCE SEQ_notification_nid;
+DROP SEQUENCE SEQ_reply_rid;
 DROP SEQUENCE SEQ_securityUser_suid;
 DROP SEQUENCE SEQ_userProfile_pid;
 
@@ -29,14 +35,32 @@ DROP SEQUENCE SEQ_userProfile_pid;
 
 /* Create Sequences */
 
+CREATE SEQUENCE SEQ_board_bid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_message_mid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_notification_nid INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE SEQ_reply_rid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_securityUser_suid INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_userProfile_pid INCREMENT BY 1 START WITH 1;
 
 
 
 /* Create Tables */
+
+CREATE TABLE board
+(
+	bid number NOT NULL,
+	suid number NOT NULL,
+	title varchar2(128) NOT NULL,
+	content varchar2(4000),
+	modTime timestamp DEFAULT SYSDATE,
+	viewCount number DEFAULT 0,
+	replyCount number DEFAULT 0,
+	lileCount number DEFAULT 0,
+	files varchar2(512),
+	isDeleted number DEFAULT 0,
+	PRIMARY KEY (bid)
+);
+
 
 CREATE TABLE message
 (
@@ -59,6 +83,18 @@ CREATE TABLE notification
 	status number DEFAULT 0,
 	genTime timestamp DEFAULT SYSDATE,
 	PRIMARY KEY (nid)
+);
+
+
+CREATE TABLE reply
+(
+	rid number NOT NULL,
+	suid number NOT NULL,
+	bid number NOT NULL,
+	content varchar2(128) NOT NULL,
+	regTime timestamp DEFAULT SYSDATE,
+	isMine number DEFAULT 0,
+	PRIMARY KEY (rid)
 );
 
 
@@ -98,6 +134,18 @@ CREATE TABLE userProfile
 
 /* Create Foreign Keys */
 
+ALTER TABLE reply
+	ADD FOREIGN KEY (bid)
+	REFERENCES board (bid)
+;
+
+
+ALTER TABLE board
+	ADD FOREIGN KEY (suid)
+	REFERENCES securityUser (suid)
+;
+
+
 ALTER TABLE message
 	ADD FOREIGN KEY (srcSuid)
 	REFERENCES securityUser (suid)
@@ -116,6 +164,12 @@ ALTER TABLE notification
 ;
 
 
+ALTER TABLE reply
+	ADD FOREIGN KEY (suid)
+	REFERENCES securityUser (suid)
+;
+
+
 ALTER TABLE userProfile
 	ADD FOREIGN KEY (suid)
 	REFERENCES securityUser (suid)
@@ -124,6 +178,16 @@ ALTER TABLE userProfile
 
 
 /* Create Triggers */
+
+CREATE OR REPLACE TRIGGER TRI_board_bid BEFORE INSERT ON board
+FOR EACH ROW
+BEGIN
+	SELECT SEQ_board_bid.nextval
+	INTO :new.bid
+	FROM dual;
+END;
+
+/
 
 CREATE OR REPLACE TRIGGER TRI_message_mid BEFORE INSERT ON message
 FOR EACH ROW
@@ -140,6 +204,16 @@ FOR EACH ROW
 BEGIN
 	SELECT SEQ_notification_nid.nextval
 	INTO :new.nid
+	FROM dual;
+END;
+
+/
+
+CREATE OR REPLACE TRIGGER TRI_reply_rid BEFORE INSERT ON reply
+FOR EACH ROW
+BEGIN
+	SELECT SEQ_reply_rid.nextval
+	INTO :new.rid
 	FROM dual;
 END;
 
