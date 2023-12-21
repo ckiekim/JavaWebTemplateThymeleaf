@@ -20,7 +20,7 @@ public class BoardServiceOracleImpl implements BoardService {
 
 	@Override
 	public List<Board> getBoardList(String field, String query) {
-		List<Board> list = boardDao.getBoardList(field, query);
+		List<Board> list = boardDao.getBoardList(field, "%" + query + "%");
 		return list;
 	}
 

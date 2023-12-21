@@ -184,6 +184,39 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#board-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-journal-text"></i><span>게시판</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="board-nav" class="nav-content collapse" th:classappend="${category == 'board' ? 'show' : ''}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="/board/list" th:class="${menu == 'list' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>목록</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" th:class="${menu == 'detail' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>상세 조회</span>
+              </a>
+            </li>
+            <li>
+              <a href="/board/write" th:class="${menu == 'write' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>글 쓰기</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" th:class="${menu == 'update' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>글 수정</span>
+              </a>
+            </li>
+            <li>
+              <a href="/board/calendar" th:class="${menu == 'calendar' ? 'active' : ''}">
+                <i class="bi bi-circle"></i><span>스케쥴</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Board Nav -->
+
+        <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#chatbot-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-chat-quote-fill"></i><span>Chatbot</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
