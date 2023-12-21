@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.human.thymeleaf.entity.Board;
 import com.human.thymeleaf.entity.Reply;
 import com.human.thymeleaf.service.BoardService;
+import com.human.thymeleaf.service.ReplyService;
 import com.human.thymeleaf.util.JsonUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 public class BoardController {
 	private String category = "board";
 	@Autowired private BoardService boardService;
+	@Autowired private ReplyService replyService;
 	@Value("${spring.servlet.multipart.location}") private String uploadDir;
 
 	@GetMapping("/list")
@@ -78,8 +80,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/detail/{bid}/{suid}")
-	public String detail(@PathVariable(required=false) int bid, @PathVariable(required=false) int suid,
-			String option, HttpSession session, Model model) {
+	public String detail(@PathVariable int bid, @PathVariable int suid, String option,
+			 				HttpSession session, Model model) {
 		int sessSuid = (int) session.getAttribute("sessSuid");
 		// 조회수 증가. 단, 본인이 읽거나 댓글 작성후에는 제외.
 		if (option == null && sessSuid != suid)
@@ -92,7 +94,8 @@ public class BoardController {
 		List<String> fileList = jsonUtil.parse(jsonFiles);
 		if (fileList != null)
 			model.addAttribute("fileList", fileList);
-		List<Reply> replyList = null;
+		List<Reply> replyList = replyService.getReplyList(bid);
+//		replyList.forEach(x -> System.out.println(x));
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("menu", "detail");
 		model.addAttribute("category", category);

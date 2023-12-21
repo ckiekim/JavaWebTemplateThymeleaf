@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <header th:replace="~{fragments/base :: head}"></header>
+  <style>
+    .disabled-link	{ pointer-events: none; }  
+  </style>
 </head>
 <body>
   <div th:insert="~{fragments/base :: top}"></div>
@@ -21,60 +24,87 @@
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-10">
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">게시글 상세조회
-                <a href="/board/list"><i class="bi bi-list-task"></i> 목록</a>
-                <a href="/board/update"><i class="bi bi-pencil-square"></i> 수정</a>
-                <a href="/board/delete"><i class="bi bi-trash"></i> 삭제</a>
-              </h5>
-              <table class="table">
-              	<tr>
-              	  <td style="width: 10%;">발신</td>
-              	  <td style="width: 90%;" th:text="${message.srcName}"></td>
-              	</tr>
-              	<tr>
-              	  <td>내용</td>
-              	  <td th:text="${message.content}"></td>
-              	</tr>
-              	<tr>
-              	  <td>시간</td>
-                  <td th:text="${#strings.replace(#strings.substring(message.genTime,0,19),'T',' ')}"></td>
-              	</tr>
-              	<tr>
-              	  <td colspan="2" style="text-align: center;">
-              	    <button class="btn btn-primary" th:onclick="|location.href='@{${referer}}'|">확인</button>
-              	    <button class="btn btn-warning" th:onclick="|location.href='@{/message/delete/{id}(id=${message.mid},referer=${referer})}'|">삭제</button>
-              	  </td>
-              	</tr>
-              </table>
-              <h5 class="mt-5 mb-2">응답</h5>
-              <form action="/message/write" method="post">
-                <input type="hidden" name="dstSuid" th:value="${message.srcSuid}">
-                <table class="table table-borderless">
-                  <tr>
-                    <td style="width: 10%;"><label class="col-form-label">수신</label></td>
-                    <td style="width: 90%;"><input class="form-control" type="text" id="dstSname" th:value="${message.srcName}"></td>
-                  </tr>
-                  <tr>
-                    <td><label class="col-form-label">내용</label></td>
-                    <td><textarea class="form-control" name="content" rows="5"></textarea></td>
-                  </tr>
-                  <tr><td colspan="2" style="text-align: center;">
-                    <button type="submit" class="btn btn-primary">제출</button>
-                    <button type="reset" class="btn btn-secondary">취소</button>
-                  </td></tr>
-                </table>
-              </form>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">상세 조회
+            <span class="ms-5"><a href="/board/list"><i class="bi bi-list-task"></i> 목록</a></span>
+            <span th:if="${board.suid == session.sessSuid}">
+              <a class="ms-3" href="/board/update"><i class="bi bi-pencil-square"></i> 수정</a>
+              <a class="ms-3" href="/board/delete"><i class="bi bi-trash"></i> 삭제</a>
+            </span>
+            <span th:unless="${board.suid == session.sessSuid}">
+              <a class="ms-3 disabled-link" href="#"><i class="bi bi-pencil-square"></i> 수정</a>
+              <a class="ms-3 disabled-link" href="#"><i class="bi bi-trash"></i> 삭제</a>
+            </span>
+          </h5>
+          <div class="row">
+            <div class="col-lg-8">
+              <h5 th:text="${board.title}"></h5>
+              <h6>
+                글 번호: <span th:text="${board.bid}"></span> |
+                <span th:text="${#strings.replace(board.modTime,'T',' ')}"></span>
+                <!-- <span th:text="${#strings.replace(#strings.substring(board.modTime,0,19),'T',' ')}"></span> -->
+              </h6>
+              <h6>첨부 파일:
+                <span th:each="file: ${fileList}">
+                  <a th:href="@{/file/download/{x}(x=${file})}" class="me-2" download><span th:text="${file}"></span></a>
+                </span>
+              </h6>
+            </div>
+            <div class="col-lg-4 text-end">
+              <h5 th:text="${board.suName}"></h5>
+              <h6>
+                조회 <span th:text="${board.viewCount}"></span>;
+                <span class="ms-2">댓글</span> <span th:text="${board.replyCount}"></span>
+              </h6>
+              <h6>
+                <span th:if="${board.suid == session.sessSuid}">
+                  <a href="#"><i class="bi bi-hand-thumbs-up-fill"></i> <span th:text="${board.likeCount}"></span></a>
+                </span>
+                <span th:unless="${board.suid == session.sessSuid}">
+                  <a th:href="@{/board/like/{x}(x=${board.bid})}"><i class="bi bi-hand-thumbs-up-fill"></i> <span th:text="${board.likeCount}"></span></a>
+                </span>
+              </h6>
+            </div>
+            <div class="col-lg-12"><hr></div>
+            <!-- <div class="col-lg-12" th:utext="${board.content}"></div> -->
+            <div class="col-lg-12" th:utext="${#strings.replace(board.content, '&#10;','&lt;br&gt;')}"></div>
+            <div class="col-lg-12"><hr></div>
+          </div>
+          <div th:each="reply: ${replyList}">
+            <div class="row" th:if="${reply.isMine == 0}">
+              <div class="col-lg-9">
+                <span class="me-2" th:text="${reply.suName}"></span>
+                <span th:text="${#strings.replace(#strings.substring(reply.regTime,0,19),'T',' ')}"></span><br>
+                <div th:utext="${#strings.replace(reply.content, '&#10;','&lt;br&gt;')}"></div>
+              </div>
+              <div class="col-lg-3"></div>
+            </div>
+            <div class="row" th:if="${reply.isMine == 1}">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-9 text-end">
+                <span class="me-2" th:text="${reply.suName}"></span>
+                <span th:text="${#strings.replace(#strings.substring(reply.regTime,0,19),'T',' ')}"></span><br>
+                <div th:utext="${#strings.replace(reply.content, '&#10;','&lt;br&gt;')}"></div>
+              </div>
             </div>
           </div>
-
         </div>
-        <div class="col-lg-1"></div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <form class="form-inline" action="/board/reply" method="post">
+            <input type="hidden" name="bid" th:value="${board.bid}">
+            <input type="hidden" name="suid" th:value="${board.suid}">
+            <table class="table table-borderless mt-2">
+              <tr class="d-flex align-middle">
+                <td class="col-lg-2 text-end"><label class="col-form-label">댓글</label></td>
+                <td class="col-lg-8"><textarea class="form-control" name="content" rows="3"></textarea></td>
+                <td class="col-lg-2"><button type="submit" class="btn btn-primary">제출</button></td>
+              </tr>
+            </table>
+          </form>
+        </div>
       </div>
     </section>
 

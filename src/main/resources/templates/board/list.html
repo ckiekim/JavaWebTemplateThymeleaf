@@ -49,7 +49,7 @@
                   <tr th:each="board: ${boardList}">
                     <td th:text="${board.bid}"></td>
                     <td>
-                      <a href="@{/board/detail/{bid}/{suid}(bid=${board.bid}, suid=${board.suid})}">
+                      <a th:href="@{/board/detail/{bid}/{suid}(bid=${board.bid}, suid=${board.suid})}">
                         <span th:text="${board.title}"></span>
                         <span th:if="${board.replyCount > 0}">
                           <span class="text-danger" th:text="${'['+board.replyCount+']'}"></span>
