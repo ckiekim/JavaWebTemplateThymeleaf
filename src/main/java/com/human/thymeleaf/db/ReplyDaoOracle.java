@@ -16,7 +16,7 @@ public interface ReplyDaoOracle {
 			+ "  where r.bid=#{bid} order by r.rid")
 	List<Reply> getReplyList(int bid);
 	
-	@Insert("insert into reply values (default, #{suid}, #{bid}, #{content}, default, #{isMine}")
+	@Insert("insert into reply values (default, #{suid}, #{bid}, #{content}, default, #{isMine})")
 	void insertReply(Reply reply);
 	
 }

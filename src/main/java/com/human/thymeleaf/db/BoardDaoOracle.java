@@ -28,7 +28,7 @@ public interface BoardDaoOracle {
 	void insertBoard(Board board);
 	
 	@Update("update board set title=#{title}, content=#{content}, modTime=SYSDATE,"
-			+ "  files=${files} where bid=#{bid}")
+			+ "  files=#{files} where bid=#{bid}")
 	void updateBoard(Board board);
 	
 	@Update("update board set isDeleted=1 where bid=#{bid}")

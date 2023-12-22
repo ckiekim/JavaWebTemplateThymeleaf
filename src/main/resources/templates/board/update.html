@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <header th:replace="~{fragments/base :: head}"></header>
+</head>
+<body>
+  <div th:insert="~{fragments/base :: top}"></div>
+  <div th:insert="~{fragments/base :: aside}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>게시글 수정</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/index">Home</a></li>
+          <li class="breadcrumb-item">Board</li>
+          <li class="breadcrumb-item active">Update</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">게시글 수정
+                <span class="ms-5"><a href="/board/list"><i class="bi bi-list-task"></i> 목록으로</a></span>
+              </h5>
+              <form action="/board/update" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="bid" th:value="${board.bid}">
+                <input type="hidden" name="suid" th:value="${board.suid}">
+                <table class="table table-borderless">
+                  <tr>
+                    <td style="width: 10%;"><label class="col-form-label">제목</label></td>
+                    <td style="width: 90%;" colspan="2"><input class="form-control" type="text" name="title" th:value="${board.title}"></td>
+                  </tr>
+                  <tr>
+                    <td><label class="col-form-label">내용</label></td>
+                    <td colspan="2"><textarea class="form-control" name="content" rows="10" th:value="${board.content}" th:text="${board.content}"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td><label class="col-form-label">첨부</label></td>
+                    <td><label class="col-form-label">삭제</label></td>
+                    <td>
+                      <div th:each="file: ${session.fileList}">
+                        <input class="ms-2" type="checkbox" name="delFile" th:value="${file}">
+                        <span th:text="${file}"></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><label class="col-form-label">추가</label></td>
+                    <td><input class="form-control" type="file" name="files" multiple></td>
+                  </tr>
+                  <tr><td colspan="3" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">수정</button>
+                    <button type="reset" class="btn btn-secondary">취소</button>
+                  </td></tr>
+                </table>
+              </form>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:insert="~{fragments/base :: bottom}"></div>
+</body>
+</html>

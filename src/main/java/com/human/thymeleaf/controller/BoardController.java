@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -64,7 +65,7 @@ public class BoardController {
 				continue;
 			String filename = part.getOriginalFilename();
 			list.add(filename);
-			String uploadFile = uploadDir + "/upload/" + filename;
+			String uploadFile = uploadDir + "upload/" + filename;
 			File file = new File(uploadFile);
 			try {
 				part.transferTo(file);
@@ -97,9 +98,92 @@ public class BoardController {
 		List<Reply> replyList = replyService.getReplyList(bid);
 //		replyList.forEach(x -> System.out.println(x));
 		model.addAttribute("replyList", replyList);
+		model.addAttribute("count", board.getLikeCount());
 		model.addAttribute("menu", "detail");
 		model.addAttribute("category", category);
 		return "board/detail";
 	}
+	
+	@PostMapping("/reply")
+	public String reply(int suid, int bid, String content, HttpSession session) {
+		int sessSuid = (int) session.getAttribute("sessSuid");
+		int isMine = (suid == sessSuid) ? 1 : 0;
+		
+		Reply reply = new Reply(sessSuid, bid, content, isMine);
+		replyService.insertReply(reply);
+		boardService.increaseReplyCount(bid);
+		return "redirect:/board/detail/" + bid + "/" + suid + "?option=DNI";	// Do Not Increase
+	}
+	
+	// =========================================
+	// 미해결 - 클라이언트 화면이 바로 바뀌지 않음
+	// =========================================
+	@GetMapping("/like/{bid}")
+	public String like(@PathVariable int bid, Model model) {
+		boardService.increaseLikeCount(bid);
+		int count = boardService.getBoard(bid).getLikeCount();
+		model.addAttribute("count", count);
+//		return String.valueOf(count);
+//		Board board = boardService.getBoard(bid);
+//		model.addAttribute("board", board);
+		return "board/detail::#likeCount";
+	}
+	
+	@GetMapping("/update/{bid}")
+	public String updateForm(@PathVariable int bid, HttpSession session, Model model) {
+		Board board = boardService.getBoard(bid);
+		String jsonFiles = board.getFiles();
+		if (jsonFiles != null) {
+			JsonUtil jsonUtil = new JsonUtil();
+			List<String> fileList = jsonUtil.parse(jsonFiles);
+			session.setAttribute("fileList", fileList);
+		}
+		model.addAttribute("board", board);
+		model.addAttribute("menu", "update");
+		model.addAttribute("category", category);
+		return "board/update";
+	}
+	
+	@PostMapping("/update")
+	public String updateProc(MultipartHttpServletRequest req, HttpSession session) {
+		int bid = Integer.parseInt(req.getParameter("bid"));
+		int suid = Integer.parseInt(req.getParameter("suid"));
+		String title = req.getParameter("title");
+		String content = req.getParameter("content");
+		
+		List<String> additionalFileList = (List<String>) session.getAttribute("fileList");
+		if (additionalFileList == null)
+			additionalFileList = new ArrayList<>();
+		String[] delFileList = req.getParameterValues("delFile");
+		if (delFileList != null) {
+			for (String delName: delFileList) {
+				File delFile = new File(uploadDir + "upload/" + delName);
+				delFile.delete();
+				additionalFileList.remove(delName);
+			}
+		}
+		
+		List<MultipartFile> fileList = req.getFiles("files");
+		for (MultipartFile part: fileList) {
+			if (part.getContentType().contains("octet-stream"))
+				continue;
+			String filename = part.getOriginalFilename();
+			additionalFileList.add(filename);
+			String uploadFile = uploadDir + "upload/" + filename;
+			File file = new File(uploadFile);
+			try {
+				part.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+//		additionalFileList.forEach(x -> System.out.println(x));
+		
+		String files = new JsonUtil().stringify(additionalFileList);
+		Board board = new Board(bid, suid, title, content, files);
+		boardService.updateBoard(board);
+		return "redirect:/board/detail/" + bid + "/" + suid;
+	}
+	
 	
 }
