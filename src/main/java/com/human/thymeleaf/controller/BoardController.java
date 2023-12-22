@@ -32,6 +32,7 @@ public class BoardController {
 	@Autowired private BoardService boardService;
 	@Autowired private ReplyService replyService;
 	@Value("${spring.servlet.multipart.location}") private String uploadDir;
+	@Autowired private JsonUtil jsonUtil;
 
 	@GetMapping("/list")
 	public String list(String f, String q, Model model) {
@@ -73,7 +74,6 @@ public class BoardController {
 				e.printStackTrace();
 			}
 		}
-		JsonUtil jsonUtil = new JsonUtil();
 		String files = jsonUtil.stringify(list);
 		Board board = new Board(suid, title, content, files);
 		boardService.insertBoard(board);
@@ -91,7 +91,6 @@ public class BoardController {
 		Board board = boardService.getBoard(bid);
 		model.addAttribute("board", board);
 		String jsonFiles = board.getFiles();
-		JsonUtil jsonUtil = new JsonUtil();
 		List<String> fileList = jsonUtil.parse(jsonFiles);
 		if (fileList != null)
 			model.addAttribute("fileList", fileList);
@@ -134,7 +133,6 @@ public class BoardController {
 		Board board = boardService.getBoard(bid);
 		String jsonFiles = board.getFiles();
 		if (jsonFiles != null) {
-			JsonUtil jsonUtil = new JsonUtil();
 			List<String> fileList = jsonUtil.parse(jsonFiles);
 			session.setAttribute("fileList", fileList);
 		}
@@ -179,7 +177,7 @@ public class BoardController {
 		}
 //		additionalFileList.forEach(x -> System.out.println(x));
 		
-		String files = new JsonUtil().stringify(additionalFileList);
+		String files = jsonUtil.stringify(additionalFileList);
 		Board board = new Board(bid, suid, title, content, files);
 		boardService.updateBoard(board);
 		return "redirect:/board/detail/" + bid + "/" + suid;
