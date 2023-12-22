@@ -15,6 +15,9 @@
         }
       });
     }
+    function deleteBoard() {
+      $('#deleteModal').modal('show');
+    }
   </script>
 </head>
 <body>
@@ -41,7 +44,7 @@
             <span class="ms-5"><a href="/board/list"><i class="bi bi-list-task"></i> 목록</a></span>
             <span th:if="${board.suid == session.sessSuid}">
               <a class="ms-3" th:href="@{/board/update/{x}(x=${board.bid})}"><i class="bi bi-pencil-square"></i> 수정</a>
-              <a class="ms-3" href="/board/delete"><i class="bi bi-trash"></i> 삭제</a>
+              <a class="ms-3" href="javascript:void" onclick="deleteBoard()"><i class="bi bi-trash"></i> 삭제</a>
             </span>
             <span th:unless="${board.suid == session.sessSuid}">
               <a class="ms-3 disabled-link" href="#"><i class="bi bi-pencil-square"></i> 수정</a>
@@ -71,7 +74,7 @@
               <h6>
                 <span th:if="${board.suid == session.sessSuid}">
                   <a href="javascript:void" th:onclick="likeClick(${board.bid})"><i class="bi bi-hand-thumbs-up-fill"></i>
-                    <span id="likeCount" th:with="count=${count}"></span></a>
+                    <span id="likeCount" th:text="${count}"></span></a>
                 </span>
                 <span th:unless="${board.suid == session.sessSuid}">
                   <a th:href="@{/board/like/{x}(x=${board.bid})}"><i class="bi bi-hand-thumbs-up-fill"></i> <span th:text="${board.likeCount}"></span></a>
@@ -123,5 +126,23 @@
   </main><!-- End #main -->
 
   <div th:insert="~{fragments/base :: bottom}"></div>
+
+  <div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">게시글 삭제</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>정말로 삭제하시겠습니까?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" th:onclick="@{location.href='/board/delete/{x}'(x=${board.bid})}">삭제</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

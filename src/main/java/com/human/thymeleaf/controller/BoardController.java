@@ -185,5 +185,10 @@ public class BoardController {
 		return "redirect:/board/detail/" + bid + "/" + suid;
 	}
 	
+	@GetMapping("/delete/{bid}")
+	public String delete(@PathVariable int bid) {
+		boardService.deleteBoard(bid);
+		return "redirect:/board/list";
+	}
 	
 }
