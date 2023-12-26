@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.human.thymeleaf.entity.Anniversary;
 import com.human.thymeleaf.entity.SchDay;
 import com.human.thymeleaf.entity.Schedule;
+import com.human.thymeleaf.service.AnniversaryService;
 import com.human.thymeleaf.service.ScheduleService;
 import com.human.thymeleaf.util.SchedUtil;
 
@@ -27,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 public class ScheduleController {
 	private String category = "board";
 	@Autowired private ScheduleService scheduleService;
+	@Autowired private AnniversaryService anniversaryService;
 	@Autowired private SchedUtil schedUtil;
 	
 	@GetMapping(value = {"/calendar/{arrow}", "/calendar"})
@@ -158,7 +161,7 @@ public class ScheduleController {
 		jSched.put("endTime", sched.getEndTime());
 		jSched.put("isImportant", sched.getIsImportant());
 		jSched.put("memo", sched.getMemo());
-		System.out.println(jSched.toString());
+//		System.out.println(jSched.toString());
 		return jSched.toString();
 	}
 	
@@ -177,6 +180,16 @@ public class ScheduleController {
 	@GetMapping("/delete/{sid}")
 	public String delete(@PathVariable int sid) {
 		scheduleService.delete(sid);
+		return "redirect:/schedule/calendar";
+	}
+	
+	@PostMapping("/insertAnniv")
+	public String insertAnniv(String holiday, String aname, String annivDate, HttpSession session) {
+		int isHoliday = (holiday == null) ? 0 : 1;
+		String adate = annivDate.replace("-", "");
+		int sessSuid = (int) session.getAttribute("sessSuid");
+		Anniversary anniversary = new Anniversary(sessSuid, aname, adate, isHoliday);
+		anniversaryService.insert(anniversary);
 		return "redirect:/schedule/calendar";
 	}
 	
