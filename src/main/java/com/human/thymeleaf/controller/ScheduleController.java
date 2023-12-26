@@ -1,17 +1,22 @@
 package com.human.thymeleaf.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.thymeleaf.entity.SchDay;
+import com.human.thymeleaf.entity.Schedule;
 import com.human.thymeleaf.service.ScheduleService;
 import com.human.thymeleaf.util.SchedUtil;
 
@@ -126,4 +131,53 @@ public class ScheduleController {
 		model.addAttribute("category", category);
 		return "schedule/calendar";
 	}
+	
+	@PostMapping("/insert")
+	public String insert(String importance, String title, String startDate, String startTime, String endDate, String endTime,
+							String place, String memo, HttpSession session) {
+		int isImportant = (importance == null) ? 0 : 1;
+		int sessSuid = (int) session.getAttribute("sessSuid");
+		String sdate = startDate.replace("-", "");
+		memo = (memo == null) ? "" : memo;
+		Schedule schedule = new Schedule(sessSuid, sdate, title, place, startTime, endTime, isImportant, memo);
+//		System.out.println(schedule);
+		scheduleService.insert(schedule);
+		return "redirect:/schedule/calendar";
+	}
+	
+	@ResponseBody
+	@GetMapping("/detail/{sid}")
+	public String detail(@PathVariable int sid) {
+		Schedule sched = scheduleService.getSchedule(sid);
+		JSONObject jSched = new JSONObject();
+		jSched.put("sid", sid);
+		jSched.put("title", sched.getTitle());
+		jSched.put("place", sched.getPlace());
+		jSched.put("sdate", sched.getSdate());
+		jSched.put("startTime", sched.getStartTime());
+		jSched.put("endTime", sched.getEndTime());
+		jSched.put("isImportant", sched.getIsImportant());
+		jSched.put("memo", sched.getMemo());
+		System.out.println(jSched.toString());
+		return jSched.toString();
+	}
+	
+	@PostMapping("/update")
+	public String update(String importance, int sid, String title, String startDate, String startTime, String endDate, String endTime,
+			String place, String memo, HttpSession session) {
+		int isImportant = (importance == null) ? 0 : 1;
+		int sessSuid = (int) session.getAttribute("sessSuid");
+		String sdate = startDate.replace("-", "");
+		memo = (memo == null) ? "" : memo;
+		Schedule schedule = new Schedule(sid, sessSuid, sdate, title, place, startTime, endTime, isImportant, memo);
+		scheduleService.update(schedule);
+		return "redirect:/schedule/calendar";
+	}
+	
+	@GetMapping("/delete/{sid}")
+	public String delete(@PathVariable int sid) {
+		scheduleService.delete(sid);
+		return "redirect:/schedule/calendar";
+	}
+	
 }

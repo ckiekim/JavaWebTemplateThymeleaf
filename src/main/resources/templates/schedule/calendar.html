@@ -5,6 +5,7 @@
   <style>
     th { text-align: center; width: 14.28%;}  
   </style>
+  <script src="/js/calendar.js"></script>
 </head>
 
 <body>
@@ -53,7 +54,7 @@
                 </tr>
                 <tr th:each="week: ${calendar}">
                   <div th:each="day: ${week}">
-                    <td th:style="|height: ${height}px; ${todaySdate == day.sdate ? 'background-color: #efffff;' : ''}|">
+                    <td th:style="|height: ${height}px; ${todaySdate == day.sdate ? 'background-color: #efffff;' : ''}|" th:onclick="cellClick([[${day.sdate}]])">
                       <div th:if="${day.isOtherMonth == 1}">
                         <div class="d-flex justify-content-between">
                           <div style="opacity: 0.5;" th:class="${(day.date == 0 || day.isHoliday == 1) ? 'text-danger' : day.date == 6 ? 'text-primary' : ''}">
@@ -79,7 +80,7 @@
                         </div>
                       </div>
                       <div th:each="sched: ${day.schedList}">
-                        <span class="" th:class="${schedStat.first ? 'mt-1' : ''}" th:onclick="|schedClick(${sched.sid})|">
+                        <span class="" th:class="${schedStat.first ? 'mt-1' : ''}" th:onclick="schedClick([[${sched.sid}]])">
                           <small>
                             <span th:text="${sched.startTime}"></span>
                             <span th:class="${sched.isImportant == 1 ? 'fw-bold' : ''}" th:text="${sched.title}"></span>
@@ -102,5 +103,145 @@
   </main><!-- End #main -->
 
   <div th:insert="~{fragments/base :: bottom}"></div>
+
+  <!-- addModal -->
+	<div class="modal" id="addModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">일정 추가</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+			
+				<div class="modal-body">
+					<form action="/schedule/insert" method="post">
+						<table class="table table-borderless">
+              <tr>
+                <td colspan="2">
+                  <label for="title">제목</label>
+                  <input class="ms-5 me-2" type="checkbox" name="importance">중요
+                  <input class="form-control" type="text" id="title" name="title">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="startDate">시작일</label>
+                  <input class="form-control" type="date" id="startDate" name="startDate">
+                </td>
+                <td>
+                  <label for="startTime">시작시간</label>
+                  <select class="form-control" name="startTime" id="startTime" >
+                    <option th:each="tl: ${timeList}" th:value="${tl}" th:text="${tl}"></option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="endDate">종료일</label>
+                  <input class="form-control" type="date" id="endDate" name="endDate">
+                </td>
+                <td>
+                  <label for="endTime">종료시간</label>
+                  <select class="form-control" name="endTime" id="endTime">
+                    <option th:each="tl: ${timeList}" th:value="${tl}" th:text="${tl}"></option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="place">장소</label>
+                  <input class="form-control" type="text" id="place" name="place">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="memo">메모</label>
+                  <input class="form-control" type="text" id="memo" name="memo">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: right;">
+                  <button class="btn btn-primary me-2" type="submit">제출</button>
+                  <!-- <button class="btn btn-secondary" type="reset">취소</button> -->
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
+                </td>
+              </tr>
+            </table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <!-- updateModal -->
+	<div class="modal" id="updateModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">일정 조회/수정/삭제</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+			
+				<div class="modal-body">
+					<form action="/schedule/update" method="post">
+						<input type="hidden" name="sid" id="sid2">
+						<table class="table table-borderless">
+              <tr>
+                <td colspan="2">
+                  <label for="title2">제목</label>
+                  <input class="ms-5 me-2" type="checkbox" id="importance2" name="importance">중요
+                  <input class="form-control" type="text" id="title2" name="title">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="startDate2">시작일</label>
+                  <input class="form-control" type="date" id="startDate2" name="startDate">
+                </td>
+                <td>
+                  <label for="startTime2">시작시간</label>
+                  <select class="form-control" name="startTime" id="startTime2">
+                    <option th:each="tl: ${timeList}" th:value="${tl}" th:text="${tl}"></option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="endDate2">종료일</label>
+                  <input class="form-control" type="date" id="endDate2" name="endDate">
+                </td>
+                <td>
+                  <label for="endTime2">종료시간</label>
+                  <select class="form-control" name="endTime" id="endTime2">
+                    <option th:each="tl: ${timeList}" th:value="${tl}" th:text="${tl}"></option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="place2">장소</label>
+                  <input class="form-control" type="text" id="place2" name="place">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="memo2">메모</label>
+                  <input class="form-control" type="text" id="memo2" name="memo">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: right;">
+                  <button class="btn btn-primary me-2" type="submit">수정</button>
+                  <button class="btn btn-danger me-2" type="button" data-bs-dismiss="modal" onclick="deleteSchedule()">삭제</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
+                </td>
+              </tr>
+            </table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>  
+
 </body>
 </html>
