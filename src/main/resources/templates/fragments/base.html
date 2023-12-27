@@ -83,7 +83,7 @@
                   <div>
                     <h4 th:text="${noti.title}"></h4>
                     <p th:text="${noti.content}"></p>
-                    <p th:text="${#strings.replace(#strings.substring(noti.genTime,0,19),'T',' ')}"></p>
+                    <p th:text="${#strings.replace(noti.genTime,'T',' ')}"></p>
                   </div>
                 </li>
                 <div th:unless="${notiStat.last}"><!-- th:each 반복 상태를 추적할 수 있는 status 변수는 "반복대상 오브젝트명" + "Stat" 변수명으로 접근 가능 -->
@@ -116,7 +116,7 @@
                     <a th:href="@{/message/view/{id}(id=${msg.mid})}">
                       <span th:text="${#strings.length(msg.content) > 40 ? #strings.substring(msg.content,0,40) : msg.content}"></span>
                     </a>
-                    <p th:text="${#strings.replace(#strings.substring(msg.genTime,0,19),'T',' ')}"></p>
+                    <p th:text="${#strings.replace(msg.genTime,'T',' ')}"></p>
                   </div>
                 </li>
                 <li><hr class="dropdown-divider"></li>
