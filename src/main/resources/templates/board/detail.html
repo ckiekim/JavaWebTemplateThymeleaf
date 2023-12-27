@@ -73,11 +73,15 @@
               </h6>
               <h6>
                 <span th:if="${board.suid == session.sessSuid}">
-                  <a href="javascript:void" th:onclick="likeClick(${board.bid})"><i class="bi bi-hand-thumbs-up-fill"></i>
-                    <span id="likeCount" th:text="${count}"></span></a>
+                  <a href="#"><i class="bi bi-hand-thumbs-up-fill"></i>
+                    <span th:text="${count}"></span>
+                  </a>
                 </span>
                 <span th:unless="${board.suid == session.sessSuid}">
-                  <a th:href="@{/board/like/{x}(x=${board.bid})}"><i class="bi bi-hand-thumbs-up-fill"></i> <span th:text="${board.likeCount}"></span></a>
+                  <a href="#" th:onclick="likeClick([[${board.bid}]])">
+                    <i class="bi bi-hand-thumbs-up-fill"></i> 
+                    <span id="likeCount" th:text="${count}"></span>
+                  </a>
                 </span>
               </h6>
             </div>

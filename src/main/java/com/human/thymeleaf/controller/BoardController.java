@@ -114,17 +114,13 @@ public class BoardController {
 		return "redirect:/board/detail/" + bid + "/" + suid + "?option=DNI";	// Do Not Increase
 	}
 	
-	// =========================================
-	// 미해결 - 클라이언트 화면이 바로 바뀌지 않음
-	// =========================================
+	// AJAX 처리
+	//	- return 문에 유의
 	@GetMapping("/like/{bid}")
 	public String like(@PathVariable int bid, Model model) {
 		boardService.increaseLikeCount(bid);
 		int count = boardService.getBoard(bid).getLikeCount();
 		model.addAttribute("count", count);
-//		return String.valueOf(count);
-//		Board board = boardService.getBoard(bid);
-//		model.addAttribute("board", board);
 		return "board/detail::#likeCount";
 	}
 	
