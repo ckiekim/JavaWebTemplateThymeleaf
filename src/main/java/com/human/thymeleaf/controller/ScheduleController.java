@@ -1,7 +1,6 @@
 package com.human.thymeleaf.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +131,7 @@ public class ScheduleController {
 		model.addAttribute("timeList", schedUtil.genTime());
 		model.addAttribute("menu", "calendar");
 		model.addAttribute("category", category);
-		return "schedule/calendar";
+		return "board/calendar";
 	}
 	
 	@PostMapping("/insert")

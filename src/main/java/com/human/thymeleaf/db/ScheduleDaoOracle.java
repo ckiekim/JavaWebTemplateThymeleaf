@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.human.thymeleaf.entity.SchDay;
 import com.human.thymeleaf.entity.Schedule;
 
 @Mapper

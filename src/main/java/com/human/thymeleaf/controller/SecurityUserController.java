@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.human.thymeleaf.auth.PrincipalDetails;
-import com.human.thymeleaf.entity.Member;
 import com.human.thymeleaf.entity.Notification;
-import com.human.thymeleaf.entity.Profile;
 import com.human.thymeleaf.entity.SecurityUser;
 import com.human.thymeleaf.entity.UserProfile;
 import com.human.thymeleaf.service.NotificationService;
